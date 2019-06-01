@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'MMText_Example' do
+  pod 'MMText', :path => '../'
+
+  target 'MMText_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

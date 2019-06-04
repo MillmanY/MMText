@@ -1,0 +1,16 @@
+PODS:
+  - MMText (0.1.0)
+
+DEPENDENCIES:
+  - MMText (from `../`)
+
+EXTERNAL SOURCES:
+  MMText:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  MMText: 29a2d38e44f035f945884e7e4fe18bf6a2bc15b6
+
+PODFILE CHECKSUM: 46f69ee95c65e42e5fe72c990f1679ddf1823a34
+
+COCOAPODS: 1.6.1

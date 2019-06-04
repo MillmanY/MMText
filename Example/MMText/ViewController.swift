@@ -7,18 +7,35 @@
 //
 
 import UIKit
+import MMText
 
 class ViewController: UIViewController {
+    @IBOutlet weak var txtAccount1: MMTextField!
+    @IBOutlet weak var txtPwd1: MMTextField!
+    @IBOutlet weak var txtAccount2: MMTextField!
+    @IBOutlet weak var txtPwd2: MMTextField!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        txtPwd2.lineType = .right
+        txtAccount2.lineType = .center
+        // Do any additional setup after loading the view.
     }
+    
+    @IBAction func errorAction() {
+        txtPwd1.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
+        txtAccount1.errorTitle = "Your account is error"
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        txtAccount2.errorTitle = "Your account is error"
+        txtPwd2.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
     }
-
+    
+    @IBAction func clearAction() {
+        txtAccount1.errorTitle = nil
+        txtPwd1.errorTitle = nil
+        txtAccount2.errorTitle = nil
+        txtPwd2.errorTitle = nil
+    }
 }
 

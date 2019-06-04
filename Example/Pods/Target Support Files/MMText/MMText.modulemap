@@ -1,0 +1,6 @@
+framework module MMText {
+  umbrella header "MMText-umbrella.h"
+
+  export *
+  module * { export * }
+}

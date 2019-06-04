@@ -1,14 +1,14 @@
 //
-//  MMTextView.swift
-//  MMText
+//  MMTextField.swift
+//  EditText
 //
-//  Created by Millman on 2019/6/3.
+//  Created by Millman on 2019/5/30.
+//  Copyright © 2019 Millman. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-extension MMTextView {
+extension MMTextField {
     public enum LineType {
         case left
         case center
@@ -17,27 +17,8 @@ extension MMTextView {
 }
 
 @IBDesignable
-public class MMTextView: UITextView {
-    private static var defaultMargin: CGFloat = 8
+public class MMTextField: UITextField {
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
-    var isFitContent: Bool {
-        set  {
-            self.isScrollEnabled = !newValue
-        } get {
-            return self.isScrollEnabled
-        }
-    }
-    
-    override init(frame: CGRect, textContainer: NSTextContainer?) {
-        super.init(frame: frame, textContainer: textContainer)
-        self.setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.setup()
-    }
-    
     private var lineView: UIView & LineViewProtocol = LineLeftAnimateView()
     private lazy var lineContainerView: UIView = {
         let v = UIView()
@@ -47,13 +28,10 @@ public class MMTextView: UITextView {
         self.addSubview(v)
         return v
     }()
-    
-    private var placeHolderLabel: UITextView = {
-        let label = UITextView()
-        label.backgroundColor = UIColor.clear
-        label.isScrollEnabled = false
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = MMTextView.systemPlaceHolderColor
+        
+    private var placeHolderLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = MMTextField.systemPlaceHolderColor
         label.isUserInteractionEnabled = false
         return label
     }()
@@ -67,12 +45,13 @@ public class MMTextView: UITextView {
         return label
     }()
     
-    private var errorLabel: MMTextLabel = {
+    private lazy var errorLabel: MMTextLabel = {
         let label = MMTextLabel()
         label.numberOfLines = 0
         label.backgroundColor = UIColor.clear
         label.font = UIFont.systemFont(ofSize: 14)
         label.isUserInteractionEnabled = false
+        self.addSubview(label)
         return label
     }()
     
@@ -117,6 +96,7 @@ public class MMTextView: UITextView {
             titleLabel.layout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+
         } get {
             return self.titleLabel.text
         }
@@ -130,18 +110,18 @@ public class MMTextView: UITextView {
             titleLabel.layout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            
         } get {
             return self.titleLabel.attributedText
         }
     }
-    
+
     @IBInspectable
     public var titleMargin: CGFloat = 5 {
         didSet {
             titleLabel.layout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
-
         }
     }
     
@@ -197,7 +177,7 @@ public class MMTextView: UITextView {
     }
     
     @IBInspectable
-    public var lineColor: UIColor? = UIColor.black {
+    public var lineColor: UIColor? {
         didSet {
             self.lineView.lineColor = lineColor
         }
@@ -211,7 +191,7 @@ public class MMTextView: UITextView {
     }
     
     @IBInspectable
-    public var editLineColor: UIColor? = UIColor.black {
+    public var editLineColor: UIColor? {
         didSet {
             self.lineView.editColor = editLineColor
         }
@@ -222,32 +202,15 @@ public class MMTextView: UITextView {
             self.tintColor = textColor
         }
     }
-    
-    override public var font: UIFont? {
-        didSet {
-            self.placeHolderLabel.font = font
-        }
-    }
-    
+
     override public var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
-        let topBotMargin = realTopHeight+realBottomHeight
-        let width = self.textContainer.size.width
-        let font = self.font
-        let textHeight = (self.text ?? "").calHeightWith(width: width, font: font)
-        let placeHeight = (self.placeHolderLabel.text ?? "").calHeightWith(width: width, font: font)
-
-        let textH = max(textHeight,placeHeight) + 2*MMTextView.defaultMargin
-        size.height = topBotMargin + textH 
-        self.lineContainerView.layout[.height]?.constant  = textH
-        self.textContainerInset = UIEdgeInsets(top: realTopHeight+MMTextView.defaultMargin,
-                                               left: 0,
-                                               bottom: realBottomHeight+MMTextView.defaultMargin,
-                                               right: 0)
+        lineContainerView.layout[.height]?.constant = size.height + 8
+        size.height += (realTopHeight+realBottomHeight)
         return size
     }
-    @IBInspectable
-    public var placeholder: String? {
+   
+    override public var placeholder: String? {
         didSet {
             self.placeHolderLabel.text = placeholder
         }
@@ -272,67 +235,85 @@ public class MMTextView: UITextView {
             self.placeHolderLabel.textAlignment = textAlignment
         }
     }
+    
+    override public func drawPlaceholder(in rect: CGRect) {
+       self.titleLabel.isHidden = titleFromPlaceHolder
+       self.placeHolderLabel.text = placeholder
+    }
+    
+    override public func textRect(forBounds bounds: CGRect) -> CGRect {
+        return self.fixText(rect: super.textRect(forBounds: bounds))
+    }
+    
+    override public func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return self.fixText(rect: super.editingRect(forBounds: bounds))
+    }
+    
+    override public func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        let r = super.clearButtonRect(forBounds: self.lineContainerView.frame)
+        return r
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
 }
 
-extension MMTextView {
-    func setup() {
-        self.textContainer.lineFragmentPadding = 0
-        self.placeHolderLabel.textContainer.lineFragmentPadding = 0
-
-        NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
-            if let o = value.object as? UITextView , o == self {
-                self?.beginEdit()
-            }
+extension MMTextField {
+    private func fixText(rect: CGRect) -> CGRect {
+        var r = rect
+        if realBottomHeight == 0 && realTopHeight != 0 {
+            r.origin.y += (realTopHeight)/2
+        } else if realBottomHeight != 0 && realTopHeight == 0 {
+            r.origin.y -= (realBottomHeight)/2
+        } else {
+            r.origin.y += (realTopHeight-realBottomHeight)/2
         }
-        
-        NotificationCenter.default.addObserver(forName: UITextView.textDidEndEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
-            if let o = value.object as? UITextView , o == self {
-                self?.endEdit()
-            }
-        }
-        
-        NotificationCenter.default.addObserver(forName: UITextView.textDidChangeNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
-            if let o = value.object as? UITextView , o == self {
-                self?.valueChange()
-            }
-        }
+        return r
+    }
+    private func setup() {
         self.tintColor = textColor
         self.lineType = .left
         let t = self.textAlignment
         self.textAlignment = t
         self.addSubview(titleLabel)
         self.addSubview(placeHolderLabel)
-        self.addSubview(errorLabel)
-        self.errorColor = UIColor.red
-        self.titleColor = UIColor.black
         self.lineContainerView.addSubview(self.lineView)
         self.editLineWidth = 2
         self.lineWidth = 1
-        self.placeHolderLabel.font = font
+        self.lineColor = self.textColor
+        self.editLineColor = self.textColor
+        self.addTarget(self, action: #selector(MMTextField.beginEdit), for: .editingDidBegin)
+        self.addTarget(self, action: #selector(MMTextField.endEdit), for: .editingDidEnd)
+        self.addTarget(self, action: #selector(MMTextField.valueChange), for: .editingChanged)
+       
         lineContainerView.layout
-            .setCenterX(anchor: self.centerXAnchor, type: .equal(constant: 0))
-            .setWidth(type: .equalTo(anchor: self.widthAnchor, multiplier: 1, constant: 0))
+            .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
+            .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
             .setHeight(type: .greaterThanOrEqual(constant: 0))
+
         titleLabel.layout
-            .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
-            .setCenterX(anchor: self.centerXAnchor, type: .equal(constant: 0))
-            .setWidth(type: .equalTo(anchor: self.widthAnchor, multiplier: 1, constant: 0))
-            .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+                  .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+                  .setLeft(anchor: self.leftAnchor, type: .equal(constant: 0))
+                  .setRight(anchor: self.rightAnchor, type: .equal(constant: 0))
+                  .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
         
         errorLabel.layout
-            .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
-            .setLeft(anchor: self.lineContainerView.leftAnchor, type: .equal(constant: 0))
-            .setRight(anchor: self.lineContainerView.rightAnchor, type: .equal(constant: 0))
+                  .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
+                  .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
+                  .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
+                  .setBottom(anchor: self.bottomAnchor, type: .equal(constant: 0))
         placeHolderLabel.layout
-            .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-            .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
-            .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
-            .setBottom(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-            self.layoutIfNeeded()
-            self.invalidateIntrinsicContentSize()
-        }
+                        .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+                        .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
+                        .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
+                        .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1.0, constant: 0.0))
     }
 
     private var realTopHeight: CGFloat {
@@ -351,15 +332,27 @@ extension MMTextView {
         return errorLabel.frame.height > 0 ? errorMargin : 0
     }
     
-    @objc func beginEdit() {
-        lineView.beginEdit()
-        self.valueChange()
-        if self.titleFromPlaceHolder {
+    private func shiftPlaceholderTitle(shift: Bool) {
+        if shift {
             placeHolderLabel.font = titleLabel.font
             placeHolderLabel.textColor = self.textColor
             placeHolderLabel.layout.setTop(anchor: self.topAnchor, type: .equal(constant: 0))
                 .setHeight(type: .equalTo(anchor: self.titleLabel.heightAnchor, multiplier: 1, constant: 0))
-            UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+        } else {
+            placeHolderLabel.font = self.font
+            placeHolderLabel.textColor = MMTextField.systemPlaceHolderColor
+            placeHolderLabel.layout
+                .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+                .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
+        }
+        UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+    }
+    
+    @objc func beginEdit() {
+        lineView.beginEdit()
+        self.valueChange()
+        if self.titleFromPlaceHolder {
+            self.shiftPlaceholderTitle(shift: true)
         }
     }
     
@@ -367,22 +360,17 @@ extension MMTextView {
         lineView.endEdit()
         self.valueChange()
         if self.titleFromPlaceHolder {
-            placeHolderLabel.font = self.font
-            placeHolderLabel.textColor = MMTextView.systemPlaceHolderColor
-            
-            placeHolderLabel.layout
-                .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-                .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
-            UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+            self.shiftPlaceholderTitle(shift: false)
         }
     }
-    
+
     @objc func valueChange() {
         let textNotEmpty = self.text?.isEmpty == false || self.attributedText?.string.isEmpty == false
         if titleFromPlaceHolder {
-            self.placeHolderLabel.isHidden = textNotEmpty && !self.isFocused
+            self.placeHolderLabel.isHidden = textNotEmpty && !self.isEditing
         } else {
             self.placeHolderLabel.isHidden = textNotEmpty
         }
     }
 }
+

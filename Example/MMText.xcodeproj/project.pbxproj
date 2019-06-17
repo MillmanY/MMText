@@ -48,7 +48,7 @@
 		8AD072068F5D82587B233791 /* Pods-MMText_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMText_Tests.release.xcconfig"; path = "Target Support Files/Pods-MMText_Tests/Pods-MMText_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8F21FCCE7279DB2138A9A6E3 /* Pods-MMText_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMText_Example.release.xcconfig"; path = "Target Support Files/Pods-MMText_Example/Pods-MMText_Example.release.xcconfig"; sourceTree = "<group>"; };
 		BD8BDEF186769E79A6B05444 /* Pods-MMText_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMText_Example.debug.xcconfig"; path = "Target Support Files/Pods-MMText_Example/Pods-MMText_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		CF2E4ADED1FBF74F68D26A06 /* MMText.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MMText.podspec; path = ../MMText.podspec; sourceTree = "<group>"; };
+		CF2E4ADED1FBF74F68D26A06 /* MMText.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MMText.podspec; path = ../MMText.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

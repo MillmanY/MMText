@@ -12,7 +12,7 @@ class TextDemoViewController: UIViewController {
     @IBOutlet weak var txtView: MMTextView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.txtView.inputViewStyle = .border
         // Do any additional setup after loading the view.
     }
     @IBAction func errorAction() {

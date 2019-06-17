@@ -19,7 +19,9 @@ extension MMTextField {
 @IBDesignable
 public class MMTextField: UITextField {
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
-    private var lineView: UIView & LineViewProtocol = LineLeftAnimateView()
+    var tes: UIView = UIView()
+
+    var lineView: UIView & InputViewProtocol = LineLeftAnimateView()
     private lazy var lineContainerView: UIView = {
         let v = UIView()
         v.isUserInteractionEnabled = false
@@ -36,8 +38,8 @@ public class MMTextField: UITextField {
         return label
     }()
     
-    private var titleLabel: MMTextLabel = {
-        let label = MMTextLabel()
+    var titleLabel: UILabel = {
+        let label = UILabel()
         label.backgroundColor = UIColor.clear
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 12)
@@ -45,8 +47,8 @@ public class MMTextField: UITextField {
         return label
     }()
     
-    private lazy var errorLabel: MMTextLabel = {
-        let label = MMTextLabel()
+    lazy var errorLabel: UILabel = {
+        let label = UILabel()
         label.numberOfLines = 0
         label.backgroundColor = UIColor.clear
         label.font = UIFont.systemFont(ofSize: 14)
@@ -66,16 +68,28 @@ public class MMTextField: UITextField {
             case .center:
                 lineView = LineCenterView()
             }
+            
             lineView.lineWidth = CGFloat(lineWidth)
             lineView.lineColor = lineColor
             lineView.editWidth = CGFloat(editLineWidth)
             lineView.editColor = editLineColor
             self.lineContainerView.addSubview(lineView)
-            lineView.layout
+            lineView.mmTextLayout
                 .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
                 .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
                 .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
                 .setBottom(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
+        }
+    }
+    
+    public var inputViewStyle: InputViewStyle {
+        set {
+            lineView.style = newValue
+            self.updatePlaceHolderMargin()
+            self.invalidateIntrinsicContentSize()
+            self.layoutIfNeeded()
+        } get {
+            return lineView.style
         }
     }
     
@@ -86,14 +100,14 @@ public class MMTextField: UITextField {
             self.titleLabel.text = titleFromPlaceHolder ? placeholder : title
         }
     }
-    
+   
     @IBInspectable
     public var title: String?  {
         set {
             if titleFromPlaceHolder { return }
             self.titleLabel.text = newValue
             self.titleLabel.sizeToFit()
-            titleLabel.layout[.bottom]?.constant = -realTopMargin
+            titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
 
@@ -107,7 +121,7 @@ public class MMTextField: UITextField {
             if titleFromPlaceHolder { return }
             self.titleLabel.attributedText = newValue
             self.titleLabel.sizeToFit()
-            titleLabel.layout[.bottom]?.constant = -realTopMargin
+            titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             
@@ -119,7 +133,7 @@ public class MMTextField: UITextField {
     @IBInspectable
     public var titleMargin: CGFloat = 5 {
         didSet {
-            titleLabel.layout[.bottom]?.constant = -realTopMargin
+            titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
         }
@@ -137,7 +151,7 @@ public class MMTextField: UITextField {
         didSet {
             self.errorLabel.text = errorTitle
             self.errorLabel.sizeToFit()
-            errorLabel.layout[.top]?.constant = realBottomMargin
+            errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
         }
@@ -147,7 +161,7 @@ public class MMTextField: UITextField {
         didSet {
             self.errorLabel.attributedText = errorAttributeTitle
             self.errorLabel.sizeToFit()
-            errorLabel.layout[.top]?.constant = realBottomMargin
+            errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
         }
@@ -156,7 +170,7 @@ public class MMTextField: UITextField {
     @IBInspectable
     public var errorMargin: CGFloat = 5 {
         didSet {
-            errorLabel.layout[.top]?.constant = realBottomMargin
+            errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
         }
@@ -173,6 +187,7 @@ public class MMTextField: UITextField {
     public var lineWidth:Float = 1 {
         didSet {
             self.lineView.lineWidth = CGFloat(lineWidth)
+            self.updatePlaceHolderMargin()
         }
     }
     
@@ -187,6 +202,7 @@ public class MMTextField: UITextField {
     public var editLineWidth:Float = 2 {
         didSet {
             self.lineView.editWidth = CGFloat(editLineWidth)
+            self.updatePlaceHolderMargin()
         }
     }
     
@@ -205,7 +221,7 @@ public class MMTextField: UITextField {
 
     override public var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
-        lineContainerView.layout[.height]?.constant = size.height + 8
+        lineContainerView.mmTextLayout[.height]?.constant = size.height + 8
         size.height += (realTopHeight+realBottomHeight)
         return size
     }
@@ -253,6 +269,10 @@ public class MMTextField: UITextField {
         let r = super.clearButtonRect(forBounds: self.lineContainerView.frame)
         return r
     }
+    
+    override public func borderRect(forBounds bounds: CGRect) -> CGRect {
+        return super.borderRect(forBounds: bounds)
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -266,8 +286,36 @@ public class MMTextField: UITextField {
 }
 
 extension MMTextField {
+    
+    private func updatePlaceHolderMargin() {
+        switch inputViewStyle {
+        case .border:
+            let parameter: CGFloat = self.textAlignment == .right ? -1 : 1
+            
+            let maxLine = max(lineWidth, editLineWidth)
+            let x = (CGFloat(maxLine/2) + 5)
+            placeHolderLabel.mmTextLayout[.leading]?.constant = x
+            placeHolderLabel.mmTextLayout[.trailing]?.constant = x*parameter
+            
+        case .line:
+            placeHolderLabel.mmTextLayout[.leading]?.constant = 0
+            placeHolderLabel.mmTextLayout[.trailing]?.constant = 0
+        }
+    }
+    
     private func fixText(rect: CGRect) -> CGRect {
         var r = rect
+        
+        switch self.inputViewStyle {
+        case .border:
+            let maxLine = max(lineWidth, editLineWidth)
+            let parameter: CGFloat = self.textAlignment == .right ? -1 : 1
+            r.origin.x += (CGFloat(maxLine/2) + 5)*parameter
+        case .line:
+            break
+        }
+        
+        
         if realBottomHeight == 0 && realTopHeight != 0 {
             r.origin.y += (realTopHeight)/2
         } else if realBottomHeight != 0 && realTopHeight == 0 {
@@ -293,23 +341,23 @@ extension MMTextField {
         self.addTarget(self, action: #selector(MMTextField.endEdit), for: .editingDidEnd)
         self.addTarget(self, action: #selector(MMTextField.valueChange), for: .editingChanged)
        
-        lineContainerView.layout
+        lineContainerView.mmTextLayout
             .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
             .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
             .setHeight(type: .greaterThanOrEqual(constant: 0))
 
-        titleLabel.layout
+        titleLabel.mmTextLayout
                   .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
                   .setLeft(anchor: self.leftAnchor, type: .equal(constant: 0))
                   .setRight(anchor: self.rightAnchor, type: .equal(constant: 0))
                   .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
         
-        errorLabel.layout
+        errorLabel.mmTextLayout
                   .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
                   .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
                   .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
                   .setBottom(anchor: self.bottomAnchor, type: .equal(constant: 0))
-        placeHolderLabel.layout
+        placeHolderLabel.mmTextLayout
                         .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
                         .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
                         .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
@@ -336,12 +384,12 @@ extension MMTextField {
         if shift {
             placeHolderLabel.font = titleLabel.font
             placeHolderLabel.textColor = self.textColor
-            placeHolderLabel.layout.setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+            placeHolderLabel.mmTextLayout.setTop(anchor: self.topAnchor, type: .equal(constant: 0))
                 .setHeight(type: .equalTo(anchor: self.titleLabel.heightAnchor, multiplier: 1, constant: 0))
         } else {
             placeHolderLabel.font = self.font
             placeHolderLabel.textColor = MMTextField.systemPlaceHolderColor
-            placeHolderLabel.layout
+            placeHolderLabel.mmTextLayout
                 .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
                 .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
         }

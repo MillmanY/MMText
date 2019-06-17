@@ -8,7 +8,13 @@
 
 import UIKit
 
-class LineBaseView: UIView, LineViewProtocol {
+class LineBaseView: UIView, InputViewProtocol {
+    var duration: TimeInterval = 0.3
+    var style: InputViewStyle = .line {
+        didSet {
+            self.reload()
+        }
+    }
     var lineWidth: CGFloat {
         set {
             self.lineLayer.lineWidth = newValue
@@ -39,18 +45,21 @@ class LineBaseView: UIView, LineViewProtocol {
     
     lazy var lineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
+        layer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(layer)
         return layer
     }()
     
     lazy var editLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
+        layer.fillColor = UIColor.clear.cgColor
         layer.isHidden = true
         self.layer.addSublayer(layer)
         return layer
     }()
     
     func animation(isShow:Bool) -> CABasicAnimation {
+        
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         if isShow {
             animation.fromValue = 0.0
@@ -59,8 +68,9 @@ class LineBaseView: UIView, LineViewProtocol {
             animation.fromValue = 1.0
             animation.toValue = 0.0
         }
+        
         animation.timingFunction = CAMediaTimingFunction.init(name: CAMediaTimingFunctionName.easeIn)
-        animation.duration = 0.3
+        animation.duration = duration
         animation.isRemovedOnCompletion = false
         animation.fillMode = CAMediaTimingFillMode.both
         return animation
@@ -72,7 +82,7 @@ class LineBaseView: UIView, LineViewProtocol {
                 return
             }
             self?.editLayer.isHidden = false
-            self?.editLayer.add(animate, forKey: "Show")
+            self?.editLayer.add(animate, forKey: "BeginEdit")
         }
     }
     
@@ -82,35 +92,65 @@ class LineBaseView: UIView, LineViewProtocol {
                 return
             }
             self?.editLayer.isHidden = false
-            self?.editLayer.add(animate, forKey: "Show")
+            self?.editLayer.add(animate, forKey: "EndEdit")
         }
     }
+    
+    func reload() {}
 }
+
 
 class LineLeftAnimateView: LineBaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
+        self.reload()
+    }
+
+    override func reload() {
+        super.reload()
         let bound = self.bounds
         editLayer.frame = bound
         lineLayer.frame = bound
-        let bezier = UIBezierPath()
-        bezier.move(to: CGPoint(x: 0, y: self.frame.height))
-        bezier.addLine(to: CGPoint(x: self.frame.width, y: self.frame.height))
-        lineLayer.path = bezier.cgPath
-        editLayer.path = bezier.cgPath
+        switch  self.style {
+        case .line:
+            let bezier = UIBezierPath()
+            bezier.move(to: CGPoint(x: 0, y: self.frame.height))
+            bezier.addLine(to: CGPoint(x: self.frame.width, y: self.frame.height))
+            lineLayer.path = bezier.cgPath
+            editLayer.path = bezier.cgPath
+        default:
+            let bezier = UIBezierPath(roundedRect: self.bounds, cornerRadius: 1)
+            lineLayer.path = bezier.cgPath
+            editLayer.path = bezier.cgPath
+        }
+
     }
 }
 
 class LineRightAnimateView: LineBaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
+        self.reload()
+    }
+    
+    override func reload() {
+        super.reload()
         let bound = self.bounds
         editLayer.frame = bound
         lineLayer.frame = bound
-        let bezier = UIBezierPath()
-        bezier.move(to: CGPoint(x: self.frame.width, y: self.frame.height))
-        bezier.addLine(to: CGPoint(x: 0, y: self.frame.height))
-        lineLayer.path = bezier.cgPath
-        editLayer.path = bezier.cgPath
+        
+        switch  self.style {
+        case .line:
+            let bezier = UIBezierPath()
+            bezier.move(to: CGPoint(x: self.frame.width, y: self.frame.height))
+            bezier.addLine(to: CGPoint(x: 0, y: self.frame.height))
+            lineLayer.path = bezier.cgPath
+            editLayer.path = bezier.cgPath
+        default:
+            let bezier = UIBezierPath(roundedRect: self.bounds, cornerRadius: 1)
+            bezier.move(to: CGPoint.init(x: bound.maxX, y: bound.height))
+            lineLayer.path = bezier.cgPath
+            editLayer.path = bezier.cgPath
+        }
     }
 }

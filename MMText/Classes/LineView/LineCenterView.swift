@@ -7,7 +7,14 @@
 
 import UIKit
 
-class LineCenterView: UIView, LineViewProtocol {
+class LineCenterView: UIView, InputViewProtocol {
+    var duration: TimeInterval = 0.3
+    var style: InputViewStyle = .line {
+        didSet {
+            self.reload()
+        }
+    }
+    
     var lineWidth: CGFloat {
         set {
             self.lineLayer.lineWidth = newValue
@@ -38,13 +45,18 @@ class LineCenterView: UIView, LineViewProtocol {
     
     lazy var lineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
+        layer.lineJoin = .round
+        layer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(layer)
         return layer
     }()
     
     lazy var editLeftLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
+        layer.lineJoin = .round
         layer.isHidden = true
+        layer.fillColor = UIColor.clear.cgColor
+
         self.layer.addSublayer(layer)
         return layer
     }()
@@ -52,6 +64,7 @@ class LineCenterView: UIView, LineViewProtocol {
     lazy var editRightLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.isHidden = true
+        layer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(layer)
         return layer
     }()
@@ -67,7 +80,7 @@ class LineCenterView: UIView, LineViewProtocol {
             animation.toValue = 0.0
         }
         animation.timingFunction = CAMediaTimingFunction.init(name: CAMediaTimingFunctionName.easeIn)
-        animation.duration = 0.3
+        animation.duration = duration
         animation.isRemovedOnCompletion = false
         animation.fillMode = CAMediaTimingFillMode.both
         return animation
@@ -99,26 +112,52 @@ class LineCenterView: UIView, LineViewProtocol {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        self.reload()
+    }
+    
+    func reload() {
         let bound = self.bounds
         let half = bound.width/2
         
         editLeftLayer.frame = CGRect(x: 0, y: bound.origin.y, width: half, height: bound.height)
         editRightLayer.frame = CGRect(x: half, y: bound.origin.y, width: half, height: bound.height)
-
+        
         lineLayer.frame = bound
-        let bezier = UIBezierPath()
-        bezier.move(to: CGPoint(x: self.frame.width, y: self.frame.height))
-        bezier.addLine(to: CGPoint(x: 0, y: self.frame.height))
-        lineLayer.path = bezier.cgPath
         
-        let left = UIBezierPath()
-        left.move(to: CGPoint(x: half, y: self.frame.height))
-        left.addLine(to: CGPoint(x: 0, y: self.frame.height))
-        editLeftLayer.path = left.cgPath
-        
-        let right = UIBezierPath()
-        right.move(to: CGPoint(x: 0, y: self.frame.height))
-        right.addLine(to: CGPoint(x: half, y: self.frame.height))
-        editRightLayer.path = right.cgPath
+
+        switch self.style {
+        case .line:
+            let bezier = UIBezierPath()
+            bezier.move(to: CGPoint(x: self.frame.width, y: self.frame.height))
+            bezier.addLine(to: CGPoint(x: 0, y: self.frame.height))
+            lineLayer.path = bezier.cgPath
+
+            let left = UIBezierPath()
+            left.move(to: CGPoint(x: half, y: self.frame.height))
+            left.addLine(to: CGPoint(x: 0, y: self.frame.height))
+            editLeftLayer.path = left.cgPath
+            let right = UIBezierPath()
+            right.move(to: CGPoint(x: 0, y: self.frame.height))
+            right.addLine(to: CGPoint(x: half, y: self.frame.height))
+            editRightLayer.path = right.cgPath
+        case .border:
+            let bezier = UIBezierPath(roundedRect: self.bounds, cornerRadius: 1)
+            bezier.move(to: CGPoint.init(x: bound.maxX, y: bound.height))
+            lineLayer.path = bezier.cgPath
+            
+            let left = UIBezierPath()
+            left.move(to: CGPoint(x: half, y: self.frame.height))
+            left.addLine(to: CGPoint(x: 0, y: self.frame.height))
+            left.addLine(to: CGPoint.init(x: 0, y: 0))
+            left.addLine(to: CGPoint.init(x: half, y: 0))
+
+            editLeftLayer.path = left.cgPath
+            let right = UIBezierPath()
+            right.move(to: CGPoint(x: 0, y: self.frame.height))
+            right.addLine(to: CGPoint(x: half, y: self.frame.height))
+            right.addLine(to: CGPoint(x: half, y: 0))
+            right.addLine(to: .zero)
+            editRightLayer.path = right.cgPath
+        }
     }
 }

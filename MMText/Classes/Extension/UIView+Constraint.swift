@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 private var layoutHelperKey = "LayoutHelper+Key"
 extension UIView {
-    var layout:LayoutHelper {
+    var mmTextLayout:LayoutHelper {
         get {
             
             if let n = objc_getAssociatedObject(self, &layoutHelperKey) as? LayoutHelper {
@@ -23,8 +23,6 @@ extension UIView {
             }
         }
     }
-    
-    
 }
 
 class LayoutHelper: NSObject {

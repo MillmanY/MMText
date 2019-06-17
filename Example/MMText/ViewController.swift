@@ -37,5 +37,13 @@ class ViewController: UIViewController {
         txtAccount2.errorTitle = nil
         txtPwd2.errorTitle = nil
     }
+    
+    @IBAction func inputBorderAction() {
+        txtAccount1.inputViewStyle = .border
+        txtPwd1.inputViewStyle = .border
+        txtAccount2.inputViewStyle = .border
+        txtPwd2.inputViewStyle = .border
+
+    }
 }
 

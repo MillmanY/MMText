@@ -9,13 +9,12 @@
 /* Begin PBXBuildFile section */
 		1F8CEDD097FE4FB646DA3BD992547BE7 /* Pods-MMText_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 754D1D4A59E38084A74B5BE7F5CFE0FC /* Pods-MMText_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		270FC81D22A4DB1C00D7A058 /* LineCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270FC81C22A4DB1C00D7A058 /* LineCenterView.swift */; };
-		270FC82122A4EEE500D7A058 /* MMTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270FC82022A4EEE500D7A058 /* MMTextLabel.swift */; };
-		270FC82322A4F28F00D7A058 /* MMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270FC82222A4F28F00D7A058 /* MMTextView.swift */; };
-		273A1D2C22A6344B0011AB2C /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A1D2B22A6344B0011AB2C /* String+Size.swift */; };
 		27813C8922A252F700B24070 /* LineLeftRightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27813C8522A252F700B24070 /* LineLeftRightView.swift */; };
 		27813C8A22A252F700B24070 /* AnimationViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27813C8622A252F700B24070 /* AnimationViewProtocol.swift */; };
 		27813C8B22A252F700B24070 /* MMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27813C8722A252F700B24070 /* MMTextField.swift */; };
-		27813C8C22A252F700B24070 /* UIView+Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27813C8822A252F700B24070 /* UIView+Constraint.swift */; };
+		27B1EFCA22B755E3005A2B80 /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B1EFC722B755E3005A2B80 /* String+Size.swift */; };
+		27B1EFCB22B755E3005A2B80 /* UIView+Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B1EFC822B755E3005A2B80 /* UIView+Constraint.swift */; };
+		27B1EFCC22B755E3005A2B80 /* MMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B1EFC922B755E3005A2B80 /* MMTextView.swift */; };
 		375844A4BF2E174EE33063FC7E6E9FB0 /* Pods-MMText_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC23F5D111ADB2E6E32B8CD5D28802A /* Pods-MMText_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59F98BEE7C5CE81BDC6291309DF5A9FA /* Pods-MMText_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E79850AEEC323ADB2FFC08ED8FBCED3 /* Pods-MMText_Example-dummy.m */; };
 		788EDC7FF243A6B640EE739AE5F9C8B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */; };
@@ -50,13 +49,12 @@
 		1ED2674DDDF9490C5BB4A4A5521F92A9 /* Pods-MMText_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MMText_Tests-dummy.m"; sourceTree = "<group>"; };
 		2512F085DCD4AF8FCA7A7FA6E7F19649 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		270FC81C22A4DB1C00D7A058 /* LineCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineCenterView.swift; sourceTree = "<group>"; };
-		270FC82022A4EEE500D7A058 /* MMTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTextLabel.swift; sourceTree = "<group>"; };
-		270FC82222A4F28F00D7A058 /* MMTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMTextView.swift; sourceTree = "<group>"; };
-		273A1D2B22A6344B0011AB2C /* String+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
 		27813C8522A252F700B24070 /* LineLeftRightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineLeftRightView.swift; sourceTree = "<group>"; };
 		27813C8622A252F700B24070 /* AnimationViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationViewProtocol.swift; sourceTree = "<group>"; };
 		27813C8722A252F700B24070 /* MMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMTextField.swift; path = MMText/Classes/MMTextField.swift; sourceTree = "<group>"; };
-		27813C8822A252F700B24070 /* UIView+Constraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraint.swift"; sourceTree = "<group>"; };
+		27B1EFC722B755E3005A2B80 /* String+Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
+		27B1EFC822B755E3005A2B80 /* UIView+Constraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraint.swift"; sourceTree = "<group>"; };
+		27B1EFC922B755E3005A2B80 /* MMTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMTextView.swift; path = MMText/Classes/MMTextView.swift; sourceTree = "<group>"; };
 		2A7D897A2BEC055FB9873DE04D67197D /* MMText-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MMText-umbrella.h"; sourceTree = "<group>"; };
 		2F4CAD6A0CBF659B1113338487A4DDE6 /* Pods_MMText_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MMText_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A4A98F211F01C4D312EB631A41D45C5 /* Pods-MMText_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MMText_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -127,23 +125,6 @@
 			path = "Example/Pods/Target Support Files/MMText";
 			sourceTree = "<group>";
 		};
-		270FC81E22A4EEC200D7A058 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				27813C8822A252F700B24070 /* UIView+Constraint.swift */,
-				273A1D2B22A6344B0011AB2C /* String+Size.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		270FC81F22A4EECF00D7A058 /* Label */ = {
-			isa = PBXGroup;
-			children = (
-				270FC82022A4EEE500D7A058 /* MMTextLabel.swift */,
-			);
-			path = Label;
-			sourceTree = "<group>";
-		};
 		27813C8422A252F700B24070 /* LineView */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +134,16 @@
 			);
 			name = LineView;
 			path = MMText/Classes/LineView;
+			sourceTree = "<group>";
+		};
+		27B1EFC622B755E3005A2B80 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				27B1EFC722B755E3005A2B80 /* String+Size.swift */,
+				27B1EFC822B755E3005A2B80 /* UIView+Constraint.swift */,
+			);
+			name = Extension;
+			path = MMText/Classes/Extension;
 			sourceTree = "<group>";
 		};
 		31F5F053375FDF0228BC5D221152F2C5 /* Pods-MMText_Tests */ = {
@@ -219,11 +210,10 @@
 		9EAFA6325A2B854B558027FCD5226C56 /* MMText */ = {
 			isa = PBXGroup;
 			children = (
-				270FC81F22A4EECF00D7A058 /* Label */,
-				270FC81E22A4EEC200D7A058 /* Extension */,
+				27B1EFC622B755E3005A2B80 /* Extension */,
 				27813C8422A252F700B24070 /* LineView */,
 				27813C8722A252F700B24070 /* MMTextField.swift */,
-				270FC82222A4F28F00D7A058 /* MMTextView.swift */,
+				27B1EFC922B755E3005A2B80 /* MMTextView.swift */,
 				612A77A3473482D564A51204186E1C61 /* Pod */,
 				035CE14F10C34A0268E9A8DB4C4E60AD /* Support Files */,
 			);
@@ -425,13 +415,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F1753FF54B9A1173528D489B2B0460 /* MMText-dummy.m in Sources */,
-				273A1D2C22A6344B0011AB2C /* String+Size.swift in Sources */,
+				27B1EFCB22B755E3005A2B80 /* UIView+Constraint.swift in Sources */,
+				27B1EFCA22B755E3005A2B80 /* String+Size.swift in Sources */,
 				270FC81D22A4DB1C00D7A058 /* LineCenterView.swift in Sources */,
 				27813C8A22A252F700B24070 /* AnimationViewProtocol.swift in Sources */,
-				27813C8C22A252F700B24070 /* UIView+Constraint.swift in Sources */,
+				27B1EFCC22B755E3005A2B80 /* MMTextView.swift in Sources */,
 				27813C8922A252F700B24070 /* LineLeftRightView.swift in Sources */,
-				270FC82322A4F28F00D7A058 /* MMTextView.swift in Sources */,
-				270FC82122A4EEE500D7A058 /* MMTextLabel.swift in Sources */,
 				27813C8B22A252F700B24070 /* MMTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,7 +467,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-MMText_Example/Pods-MMText_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-MMText_Example/Pods-MMText_Example.modulemap";
@@ -489,6 +478,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -579,7 +569,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -641,7 +631,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-MMText_Tests/Pods-MMText_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-MMText_Tests/Pods-MMText_Tests.modulemap";
@@ -652,6 +642,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -675,7 +666,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-MMText_Example/Pods-MMText_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-MMText_Example/Pods-MMText_Example.modulemap";
@@ -686,6 +677,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -709,7 +701,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-MMText_Tests/Pods-MMText_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-MMText_Tests/Pods-MMText_Tests.modulemap";
@@ -720,6 +712,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -774,7 +767,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

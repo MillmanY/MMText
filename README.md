@@ -6,9 +6,44 @@
 [![Platform](https://img.shields.io/cocoapods/p/MMText.svg?style=flat)](https://cocoapods.org/pods/MMText)
 
 ## Demo
+
 ![demo0](https://github.com/MillmanY/MMText/blob/master/Demo/demo0.gif)
+
+## Parameter
+
+    public var lineType: MMText.MMTextField.LineType
+
+    public var inputViewStyle: MMText.InputViewStyle
+
+    @IBInspectable public var titleFromPlaceHolder: Bool
+
+    @IBInspectable public var title: String?
+
+    public var attributeTitle: NSAttributedString?
+
+    @IBInspectable public var titleMargin: CGFloat
+
+    @IBInspectable public var titleColor: UIColor
+
+    @IBInspectable public var errorTitle: String?
+
+    public var errorAttributeTitle: NSAttributedString?
+
+    @IBInspectable public var errorMargin: CGFloat
+
+    @IBInspectable public var errorColor: UIColor
+
+    @IBInspectable public var lineWidth: Float
+
+    @IBInspectable public var lineColor: UIColor?
+
+    @IBInspectable public var editLineWidth: Float
+
+    @IBInspectable public var editLineColor: UIColor?
+
 ![demo1](https://github.com/MillmanY/MMText/blob/master/Demo/demo1.png)
 ![demo2](https://github.com/MillmanY/MMText/blob/master/Demo/demo2.png)
+
 
 ## Example
 

@@ -283,6 +283,46 @@ open class MMTextField: UITextField {
         super.init(coder: aDecoder)
         setup()
     }
+    
+    open func setup() {
+        self.tintColor = textColor
+        self.lineType = .left
+        let t = self.textAlignment
+        self.textAlignment = t
+        self.addSubview(titleLabel)
+        self.addSubview(placeHolderLabel)
+        self.lineContainerView.addSubview(self.lineView)
+        self.editLineWidth = 2
+        self.lineWidth = 1
+        self.lineColor = self.textColor
+        self.editLineColor = self.textColor
+        self.addTarget(self, action: #selector(MMTextField.beginEdit), for: .editingDidBegin)
+        self.addTarget(self, action: #selector(MMTextField.endEdit), for: .editingDidEnd)
+        self.addTarget(self, action: #selector(MMTextField.valueChange), for: .editingChanged)
+        
+        lineContainerView.mmTextLayout
+            .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
+            .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
+            .setHeight(type: .greaterThanOrEqual(constant: 0))
+        
+        titleLabel.mmTextLayout
+            .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+            .setLeft(anchor: self.leftAnchor, type: .equal(constant: 0))
+            .setRight(anchor: self.rightAnchor, type: .equal(constant: 0))
+            .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+        
+        errorLabel.mmTextLayout
+            .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
+            .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
+            .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
+            .setBottom(anchor: self.bottomAnchor, type: .equal(constant: 0))
+        placeHolderLabel.mmTextLayout
+            .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+            .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
+            .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
+            .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1.0, constant: 0.0))
+    }
+
 }
 
 extension MMTextField {
@@ -325,45 +365,6 @@ extension MMTextField {
         }
         return r
     }
-    open func setup() {
-        self.tintColor = textColor
-        self.lineType = .left
-        let t = self.textAlignment
-        self.textAlignment = t
-        self.addSubview(titleLabel)
-        self.addSubview(placeHolderLabel)
-        self.lineContainerView.addSubview(self.lineView)
-        self.editLineWidth = 2
-        self.lineWidth = 1
-        self.lineColor = self.textColor
-        self.editLineColor = self.textColor
-        self.addTarget(self, action: #selector(MMTextField.beginEdit), for: .editingDidBegin)
-        self.addTarget(self, action: #selector(MMTextField.endEdit), for: .editingDidEnd)
-        self.addTarget(self, action: #selector(MMTextField.valueChange), for: .editingChanged)
-       
-        lineContainerView.mmTextLayout
-            .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
-            .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
-            .setHeight(type: .greaterThanOrEqual(constant: 0))
-
-        titleLabel.mmTextLayout
-                  .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
-                  .setLeft(anchor: self.leftAnchor, type: .equal(constant: 0))
-                  .setRight(anchor: self.rightAnchor, type: .equal(constant: 0))
-                  .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-        
-        errorLabel.mmTextLayout
-                  .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
-                  .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
-                  .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
-                  .setBottom(anchor: self.bottomAnchor, type: .equal(constant: 0))
-        placeHolderLabel.mmTextLayout
-                        .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-                        .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
-                        .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
-                        .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1.0, constant: 0.0))
-    }
-
     private var realTopHeight: CGFloat {
         return titleLabel.frame.height > 0 ? titleLabel.frame.height + titleMargin : 0
     }

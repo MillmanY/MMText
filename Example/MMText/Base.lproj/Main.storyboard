@@ -183,7 +183,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uXC-ZH-etw">
-                                <rect key="frame" x="0.0" y="64" width="375" height="192.5"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="150"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Input Account" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8AA-d5-GqX" customClass="MMTextField" customModule="MMText">
                                         <rect key="frame" x="15" y="40.5" width="345" height="54.5"/>
@@ -206,8 +206,8 @@
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Input Password" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1TP-kO-Pt2" customClass="MMTextField" customModule="MMText">
-                                        <rect key="frame" x="15" y="105" width="345" height="77.5"/>
-                                        <color key="backgroundColor" red="0.65490196079999996" green="0.7843137255" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <rect key="frame" x="15" y="105" width="345" height="35"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" red="1" green="0.25098039220000001" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -278,7 +278,7 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMo-UV-swY">
-                                <rect key="frame" x="0.0" y="256.5" width="375" height="169.5"/>
+                                <rect key="frame" x="0.0" y="214" width="375" height="169.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Account" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="mn6-yp-y9P" customClass="MMTextField" customModule="MMText">
                                         <rect key="frame" x="15" y="40.5" width="345" height="54.5"/>

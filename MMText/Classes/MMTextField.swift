@@ -65,6 +65,26 @@ open class MMTextField: UITextField {
         return label
     }()
     
+    public var titleFont: UIFont? {
+        didSet {
+            self.titleLabel.font = titleFont
+            self.invalidateIntrinsicContentSize()
+            self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
+        }
+    }
+    
+    public var errorFont: UIFont? {
+        didSet {
+            self.errorLabel.font = errorFont
+            self.invalidateIntrinsicContentSize()
+            self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
+        }
+    }
+    
     public var lineType: LineType = .left {
         didSet {
             lineView.removeFromSuperview()

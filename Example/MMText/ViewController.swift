@@ -21,15 +21,16 @@ class ViewController: UIViewController {
         txtAccount1.delegate = self
         txtPwd2.lineType = .right
         txtAccount2.lineType = .center
+        txtAccount1.errorFont = UIFont(name: "PingFangTC-Regular", size: 12.0)
         // Do any additional setup after loading the view.
     }
     
     @IBAction func errorAction() {
-//        txtPwd1.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
+        txtPwd1.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
         txtAccount1.errorTitle = "Your account is error"
 //
-//        txtAccount2.errorTitle = "Your account is error"
-//        txtPwd2.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
+        txtAccount2.errorTitle = "Your account is error"
+        txtPwd2.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
     }
     
     @IBAction func clearAction() {

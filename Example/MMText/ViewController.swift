@@ -24,11 +24,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func errorAction() {
-        txtPwd1.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
+//        txtPwd1.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
         txtAccount1.errorTitle = "Your account is error"
-
-        txtAccount2.errorTitle = "Your account is error"
-        txtPwd2.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
+//
+//        txtAccount2.errorTitle = "Your account is error"
+//        txtPwd2.errorTitle = "Mutiple line error\nMutiple line error\nMutiple line error\nMutiple line error"
     }
     
     @IBAction func clearAction() {

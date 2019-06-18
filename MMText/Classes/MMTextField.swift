@@ -325,7 +325,7 @@ extension MMTextField {
         }
         return r
     }
-    private func setup() {
+    open func setup() {
         self.tintColor = textColor
         self.lineType = .left
         let t = self.textAlignment

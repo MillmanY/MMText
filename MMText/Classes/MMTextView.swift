@@ -303,7 +303,7 @@ extension MMTextView {
         }
     }
 
-    func setup() {
+    open func setup() {
         self.textContainer.lineFragmentPadding = 0
         self.placeHolderLabel.textContainer.lineFragmentPadding = 0
 

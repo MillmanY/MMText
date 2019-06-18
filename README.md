@@ -5,6 +5,11 @@
 [![License](https://img.shields.io/cocoapods/l/MMText.svg?style=flat)](https://cocoapods.org/pods/MMText)
 [![Platform](https://img.shields.io/cocoapods/p/MMText.svg?style=flat)](https://cocoapods.org/pods/MMText)
 
+## Demo
+![demo0](https://github.com/MillmanY/MMText/blob/master/Demo/demo0.gif)
+![demo1](https://github.com/MillmanY/MMText/blob/master/Demo/demo1.png)
+![demo2](https://github.com/MillmanY/MMText/blob/master/Demo/demo2.png)
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.

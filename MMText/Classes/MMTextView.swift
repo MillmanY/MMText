@@ -17,7 +17,7 @@ extension MMTextView {
 }
 
 @IBDesignable
-public class MMTextView: UITextView {
+open class MMTextView: UITextView {
     private static var defaultMargin: CGFloat = 8
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var isFitContent: Bool {
@@ -33,7 +33,7 @@ public class MMTextView: UITextView {
         self.setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setup()
     }
@@ -232,19 +232,19 @@ public class MMTextView: UITextView {
         }
     }
     
-    override public var textColor: UIColor? {
+    override open var textColor: UIColor? {
         didSet {
             self.tintColor = textColor
         }
     }
     
-    override public var font: UIFont? {
+    override open var font: UIFont? {
         didSet {
             self.placeHolderLabel.font = font
         }
     }
     
-    override public var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         let topBotMargin = realTopHeight+realBottomHeight
         let width = self.textContainer.size.width
@@ -268,19 +268,19 @@ public class MMTextView: UITextView {
         }
     }
     
-    override public var text: String? {
+    override open var text: String? {
         didSet {
             self.valueChange()
         }
     }
     
-    override public var attributedText: NSAttributedString? {
+    override open var attributedText: NSAttributedString? {
         didSet {
             self.valueChange()
         }
     }
     
-    override public var textAlignment: NSTextAlignment {
+    override open var textAlignment: NSTextAlignment {
         didSet {
             self.titleLabel.textAlignment = textAlignment
             self.errorLabel.textAlignment = textAlignment

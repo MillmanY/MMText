@@ -17,7 +17,7 @@ extension MMTextField {
 }
 
 @IBDesignable
-public class MMTextField: UITextField {
+open class MMTextField: UITextField {
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var tes: UIView = UIView()
 
@@ -213,38 +213,38 @@ public class MMTextField: UITextField {
         }
     }
     
-    override public var textColor: UIColor? {
+    override open var textColor: UIColor? {
         didSet {
             self.tintColor = textColor
         }
     }
 
-    override public var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         lineContainerView.mmTextLayout[.height]?.constant = size.height + 8
         size.height += (realTopHeight+realBottomHeight)
         return size
     }
    
-    override public var placeholder: String? {
+    override open var placeholder: String? {
         didSet {
             self.placeHolderLabel.text = placeholder
         }
     }
     
-    override public var text: String? {
+    override open var text: String? {
         didSet {
             self.valueChange()
         }
     }
     
-    override public var attributedText: NSAttributedString? {
+    override open var attributedText: NSAttributedString? {
         didSet {
             self.valueChange()
         }
     }
     
-    override public var textAlignment: NSTextAlignment {
+    override open var textAlignment: NSTextAlignment {
         didSet {
             self.titleLabel.textAlignment = textAlignment
             self.errorLabel.textAlignment = textAlignment
@@ -252,25 +252,25 @@ public class MMTextField: UITextField {
         }
     }
     
-    override public func drawPlaceholder(in rect: CGRect) {
+    override open func drawPlaceholder(in rect: CGRect) {
        self.titleLabel.isHidden = titleFromPlaceHolder
        self.placeHolderLabel.text = placeholder
     }
     
-    override public func textRect(forBounds bounds: CGRect) -> CGRect {
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
         return self.fixText(rect: super.textRect(forBounds: bounds))
     }
     
-    override public func editingRect(forBounds bounds: CGRect) -> CGRect {
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
         return self.fixText(rect: super.editingRect(forBounds: bounds))
     }
     
-    override public func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+    override open func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         let r = super.clearButtonRect(forBounds: self.lineContainerView.frame)
         return r
     }
     
-    override public func borderRect(forBounds bounds: CGRect) -> CGRect {
+    override open func borderRect(forBounds bounds: CGRect) -> CGRect {
         return super.borderRect(forBounds: bounds)
     }
 
@@ -279,7 +279,7 @@ public class MMTextField: UITextField {
         self.setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

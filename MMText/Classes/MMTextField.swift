@@ -16,16 +16,17 @@ extension MMTextField {
     }
 }
 
+
+
 @IBDesignable
 open class MMTextField: UITextField {
-    
     private var layoutChanged: (()->Void)?
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var tes: UIView = UIView()
 
     var lineView: UIView & InputViewProtocol = LineLeftAnimateView()
     
-    func onLayoutChanged(block: (()->Void)?) {
+    public func onLayoutChanged(block: (()->Void)?) {
         self.layoutChanged = block
     }
     
@@ -118,6 +119,7 @@ open class MMTextField: UITextField {
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
 
         } get {
             return self.titleLabel.text
@@ -133,6 +135,7 @@ open class MMTextField: UITextField {
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
             
         } get {
             return self.titleLabel.attributedText
@@ -146,6 +149,7 @@ open class MMTextField: UITextField {
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
         }
     }
     
@@ -165,6 +169,7 @@ open class MMTextField: UITextField {
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
         }
     }
     
@@ -176,6 +181,7 @@ open class MMTextField: UITextField {
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
         }
     }
     
@@ -186,6 +192,7 @@ open class MMTextField: UITextField {
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.layoutChanged?()
+            (self.delegate as? MMTextFieldProtocol)?.textLayoutChanged(text: self)
         }
     }
     

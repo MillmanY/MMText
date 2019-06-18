@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        txtAccount1.delegate = self
         txtPwd2.lineType = .right
         txtAccount2.lineType = .center
         // Do any additional setup after loading the view.
@@ -54,3 +55,8 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
+extension ViewController: MMTextFieldProtocol {
+    func textLayoutChanged(text: MMTextField) {
+        
+    }
+}

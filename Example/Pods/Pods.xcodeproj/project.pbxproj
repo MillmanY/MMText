@@ -15,6 +15,7 @@
 		27B1EFCA22B755E3005A2B80 /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B1EFC722B755E3005A2B80 /* String+Size.swift */; };
 		27B1EFCB22B755E3005A2B80 /* UIView+Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B1EFC822B755E3005A2B80 /* UIView+Constraint.swift */; };
 		27B1EFCC22B755E3005A2B80 /* MMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B1EFC922B755E3005A2B80 /* MMTextView.swift */; };
+		27C3052522B8CDF3002612B3 /* MMTextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C3052422B8CDF3002612B3 /* MMTextProtocol.swift */; };
 		375844A4BF2E174EE33063FC7E6E9FB0 /* Pods-MMText_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC23F5D111ADB2E6E32B8CD5D28802A /* Pods-MMText_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59F98BEE7C5CE81BDC6291309DF5A9FA /* Pods-MMText_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E79850AEEC323ADB2FFC08ED8FBCED3 /* Pods-MMText_Example-dummy.m */; };
 		788EDC7FF243A6B640EE739AE5F9C8B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */; };
@@ -55,6 +56,7 @@
 		27B1EFC722B755E3005A2B80 /* String+Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
 		27B1EFC822B755E3005A2B80 /* UIView+Constraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraint.swift"; sourceTree = "<group>"; };
 		27B1EFC922B755E3005A2B80 /* MMTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMTextView.swift; path = MMText/Classes/MMTextView.swift; sourceTree = "<group>"; };
+		27C3052422B8CDF3002612B3 /* MMTextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MMTextProtocol.swift; path = MMText/Classes/MMTextProtocol.swift; sourceTree = "<group>"; };
 		2A7D897A2BEC055FB9873DE04D67197D /* MMText-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MMText-umbrella.h"; sourceTree = "<group>"; };
 		2F4CAD6A0CBF659B1113338487A4DDE6 /* Pods_MMText_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MMText_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A4A98F211F01C4D312EB631A41D45C5 /* Pods-MMText_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MMText_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 		9EAFA6325A2B854B558027FCD5226C56 /* MMText */ = {
 			isa = PBXGroup;
 			children = (
+				27C3052422B8CDF3002612B3 /* MMTextProtocol.swift */,
 				27B1EFC622B755E3005A2B80 /* Extension */,
 				27813C8422A252F700B24070 /* LineView */,
 				27813C8722A252F700B24070 /* MMTextField.swift */,
@@ -420,6 +423,7 @@
 				270FC81D22A4DB1C00D7A058 /* LineCenterView.swift in Sources */,
 				27813C8A22A252F700B24070 /* AnimationViewProtocol.swift in Sources */,
 				27B1EFCC22B755E3005A2B80 /* MMTextView.swift in Sources */,
+				27C3052522B8CDF3002612B3 /* MMTextProtocol.swift in Sources */,
 				27813C8922A252F700B24070 /* LineLeftRightView.swift in Sources */,
 				27813C8B22A252F700B24070 /* MMTextField.swift in Sources */,
 			);

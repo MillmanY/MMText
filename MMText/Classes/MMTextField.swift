@@ -18,10 +18,17 @@ extension MMTextField {
 
 @IBDesignable
 open class MMTextField: UITextField {
+    
+    private var layoutChanged: (()->Void)?
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var tes: UIView = UIView()
 
     var lineView: UIView & InputViewProtocol = LineLeftAnimateView()
+    
+    func onLayoutChanged(block: (()->Void)?) {
+        self.layoutChanged = block
+    }
+    
     private lazy var lineContainerView: UIView = {
         let v = UIView()
         v.isUserInteractionEnabled = false
@@ -110,6 +117,7 @@ open class MMTextField: UITextField {
             titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
 
         } get {
             return self.titleLabel.text
@@ -124,6 +132,7 @@ open class MMTextField: UITextField {
             titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
             
         } get {
             return self.titleLabel.attributedText
@@ -136,6 +145,7 @@ open class MMTextField: UITextField {
             titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
         }
     }
     
@@ -154,6 +164,7 @@ open class MMTextField: UITextField {
             errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
         }
     }
     
@@ -164,6 +175,7 @@ open class MMTextField: UITextField {
             errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
         }
     }
     
@@ -173,6 +185,7 @@ open class MMTextField: UITextField {
             errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
         }
     }
     

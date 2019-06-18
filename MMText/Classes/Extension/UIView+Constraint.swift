@@ -13,7 +13,6 @@ private var layoutHelperKey = "LayoutHelper+Key"
 extension UIView {
     var mmTextLayout:LayoutHelper {
         get {
-            
             if let n = objc_getAssociatedObject(self, &layoutHelperKey) as? LayoutHelper {
                 return n
             } else {

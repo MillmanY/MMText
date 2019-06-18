@@ -201,6 +201,9 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Account"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="titleFromPlaceHolder" value="NO"/>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="W3R-Vc-Duf" id="8Ub-qr-YmC"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Input Password" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1TP-kO-Pt2" customClass="MMTextField" customModule="MMText">
                                         <rect key="frame" x="15" y="105" width="345" height="54.5"/>
@@ -218,6 +221,9 @@
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="titleFromPlaceHolder" value="NO"/>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="W3R-Vc-Duf" id="Qyr-nb-Kxw"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Demo auto Expand when error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yvv-mv-bF6">
                                         <rect key="frame" x="15" y="10" width="345" height="20.5"/>
@@ -291,6 +297,9 @@
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="titleFromPlaceHolder" value="YES"/>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="W3R-Vc-Duf" id="b4w-Xv-hNU"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="right" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uN7-8C-S8G" customClass="MMTextField" customModule="MMText">
                                         <rect key="frame" x="15" y="105" width="345" height="54.5"/>
@@ -308,6 +317,9 @@
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="titleFromPlaceHolder" value="YES"/>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="W3R-Vc-Duf" id="4Hp-JK-ZSC"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Demo Title from Hint" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOX-xZ-LPF">
                                         <rect key="frame" x="15" y="10" width="345" height="20.5"/>

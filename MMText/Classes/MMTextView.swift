@@ -39,6 +39,69 @@ open class MMTextView: UITextView {
         self.setup()
     }
     
+    open func setup() {
+        self.textContainer.lineFragmentPadding = 0
+        self.placeHolderLabel.textContainer.lineFragmentPadding = 0
+        
+        NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
+            if let o = value.object as? UITextView , o == self {
+                self?.beginEdit()
+            }
+        }
+        
+        NotificationCenter.default.addObserver(forName: UITextView.textDidEndEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
+            if let o = value.object as? UITextView , o == self {
+                self?.endEdit()
+            }
+        }
+        
+        NotificationCenter.default.addObserver(forName: UITextView.textDidChangeNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
+            if let o = value.object as? UITextView , o == self {
+                self?.valueChange()
+            }
+        }
+        self.clipsToBounds = false
+        self.lineType = .left
+        let t = self.textAlignment
+        self.textAlignment = t
+        self.addSubview(titleLabel)
+        self.addSubview(placeHolderLabel)
+        self.addSubview(errorLabel)
+        self.errorColor = UIColor.red
+        self.titleColor = UIColor.black
+        self.lineContainerView.addSubview(self.lineView)
+        self.editLineWidth = 2
+        self.lineWidth = 1
+        self.placeHolderLabel.font = font
+        
+        lineContainerView.mmTextLayout
+            .setCenterX(anchor: self.centerXAnchor, type: .equal(constant: 0))
+            .setWidth(type: .equalTo(anchor: self.widthAnchor, multiplier: 1, constant: 0))
+            .setHeight(type: .greaterThanOrEqual(constant: 0))
+        titleLabel.mmTextLayout
+            .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+            .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
+            .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
+            .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+        
+        errorLabel.mmTextLayout
+            .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
+            .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
+            .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
+        placeHolderLabel.mmTextLayout
+            .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+            .setCenterX(anchor: self.lineContainerView.centerXAnchor, type: .equal(constant: 0))
+            .setWidth(type: .equalTo(anchor: self.lineContainerView.widthAnchor, multiplier: 1, constant: 0))
+            .setBottom(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) { [weak self] in
+            self?.layoutIfNeeded()
+            self?.invalidateIntrinsicContentSize()
+            self?.tintColor = self?.lineColor
+        }
+    }
+
+    
     private var lineView: UIView & InputViewProtocol = LineLeftAnimateView()
     
     public func onLayoutChanged(block: (()->Void)?) {
@@ -360,68 +423,6 @@ extension MMTextView {
         case .line:
             lineContainerView.mmTextLayout[.width]?.constant = 0
             placeHolderLabel.mmTextLayout[.width]?.constant = 0
-        }
-    }
-
-    open func setup() {
-        self.textContainer.lineFragmentPadding = 0
-        self.placeHolderLabel.textContainer.lineFragmentPadding = 0
-
-        NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
-            if let o = value.object as? UITextView , o == self {
-                self?.beginEdit()
-            }
-        }
-        
-        NotificationCenter.default.addObserver(forName: UITextView.textDidEndEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
-            if let o = value.object as? UITextView , o == self {
-                self?.endEdit()
-            }
-        }
-        
-        NotificationCenter.default.addObserver(forName: UITextView.textDidChangeNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
-            if let o = value.object as? UITextView , o == self {
-                self?.valueChange()
-            }
-        }
-        self.clipsToBounds = false
-        self.lineType = .left
-        let t = self.textAlignment
-        self.textAlignment = t
-        self.addSubview(titleLabel)
-        self.addSubview(placeHolderLabel)
-        self.addSubview(errorLabel)
-        self.errorColor = UIColor.red
-        self.titleColor = UIColor.black
-        self.lineContainerView.addSubview(self.lineView)
-        self.editLineWidth = 2
-        self.lineWidth = 1
-        self.placeHolderLabel.font = font
-    
-        lineContainerView.mmTextLayout
-            .setCenterX(anchor: self.centerXAnchor, type: .equal(constant: 0))
-            .setWidth(type: .equalTo(anchor: self.widthAnchor, multiplier: 1, constant: 0))
-            .setHeight(type: .greaterThanOrEqual(constant: 0))
-        titleLabel.mmTextLayout
-            .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
-            .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
-            .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
-            .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-        
-        errorLabel.mmTextLayout
-            .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
-            .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
-            .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
-        placeHolderLabel.mmTextLayout
-            .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-            .setCenterX(anchor: self.lineContainerView.centerXAnchor, type: .equal(constant: 0))
-            .setWidth(type: .equalTo(anchor: self.lineContainerView.widthAnchor, multiplier: 1, constant: 0))
-            .setBottom(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) { [weak self] in
-            self?.layoutIfNeeded()
-            self?.invalidateIntrinsicContentSize()
-            self?.tintColor = self?.lineColor
         }
     }
 

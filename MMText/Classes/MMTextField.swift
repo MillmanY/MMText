@@ -30,6 +30,24 @@ open class MMTextField: UITextField {
         self.layoutChanged = block
     }
     
+    private var shiftPlaceholderTitle: Bool = false {
+        didSet {
+            self.updatePlaceHolderFont()
+            if shiftPlaceholderTitle {
+                placeHolderLabel.textColor = self.textColor
+                placeHolderLabel.mmTextLayout.setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+                    .setHeight(type: .equalTo(anchor: self.titleLabel.heightAnchor, multiplier: 1, constant: 0))
+            } else {
+                placeHolderLabel.textColor = MMTextField.systemPlaceHolderColor
+                placeHolderLabel.mmTextLayout
+                    .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+                    .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
+            }
+            UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+            
+        }
+    }
+
     private lazy var lineContainerView: UIView = {
         let v = UIView()
         v.isUserInteractionEnabled = false
@@ -67,6 +85,7 @@ open class MMTextField: UITextField {
     
     public var titleFont: UIFont? {
         didSet {
+            self.updatePlaceHolderFont()
             self.titleLabel.font = titleFont
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
@@ -265,6 +284,12 @@ open class MMTextField: UITextField {
         size.height += (realTopHeight+realBottomHeight)
         return size
     }
+    
+    override open var font: UIFont? {
+        didSet {
+            self.updatePlaceHolderFont()
+        }
+    }
    
     override open var placeholder: String? {
         didSet {
@@ -345,6 +370,7 @@ open class MMTextField: UITextField {
         self.tintColor = textColor
         self.lineType = .left
         let t = self.textAlignment
+        self.updatePlaceHolderFont()
         self.textAlignment = t
         self.addSubview(titleLabel)
         self.addSubview(placeHolderLabel)
@@ -440,27 +466,15 @@ extension MMTextField {
         return errorLabel.frame.height > 0 ? errorMargin : 0
     }
     
-    private func shiftPlaceholderTitle(shift: Bool) {
-        if shift {
-            placeHolderLabel.font = titleLabel.font
-            placeHolderLabel.textColor = self.textColor
-            placeHolderLabel.mmTextLayout.setTop(anchor: self.topAnchor, type: .equal(constant: 0))
-                .setHeight(type: .equalTo(anchor: self.titleLabel.heightAnchor, multiplier: 1, constant: 0))
-        } else {
-            placeHolderLabel.font = self.font
-            placeHolderLabel.textColor = MMTextField.systemPlaceHolderColor
-            placeHolderLabel.mmTextLayout
-                .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-                .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
-        }
-        UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+    private func updatePlaceHolderFont() {
+        placeHolderLabel.font = shiftPlaceholderTitle ? titleLabel.font : self.font
     }
     
     @objc func beginEdit() {
         lineView.beginEdit()
         self.valueChange()
         if self.titleFromPlaceHolder {
-            self.shiftPlaceholderTitle(shift: true)
+            self.shiftPlaceholderTitle = true
         }
     }
     
@@ -468,7 +482,7 @@ extension MMTextField {
         lineView.endEdit()
         self.valueChange()
         if self.titleFromPlaceHolder {
-            self.shiftPlaceholderTitle(shift: false)
+            self.shiftPlaceholderTitle = false
         }
     }
 

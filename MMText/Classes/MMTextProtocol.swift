@@ -9,3 +9,7 @@ import Foundation
 public protocol MMTextFieldProtocol {
     func textLayoutChanged(text: MMTextField)
 }
+
+public protocol MMTextViewdProtocol {
+    func textLayoutChanged(text: MMTextView)
+}

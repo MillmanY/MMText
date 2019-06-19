@@ -18,6 +18,7 @@ extension MMTextView {
 
 @IBDesignable
 open class MMTextView: UITextView {
+    private var layoutChanged: (()->Void)?
     private static var defaultMargin: CGFloat = 8
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var isFitContent: Bool {
@@ -39,6 +40,29 @@ open class MMTextView: UITextView {
     }
     
     private var lineView: UIView & InputViewProtocol = LineLeftAnimateView()
+    
+    public func onLayoutChanged(block: (()->Void)?) {
+        self.layoutChanged = block
+    }
+    
+    private var shiftPlaceholderTitle: Bool = false {
+        didSet {
+            self.updatePlaceHolderFont()
+            if shiftPlaceholderTitle {
+                placeHolderLabel.textColor = self.textColor
+                placeHolderLabel.mmTextLayout.setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+                    .setHeight(type: .equalTo(anchor: self.titleLabel.heightAnchor, multiplier: 1, constant: 0))
+            } else {
+                placeHolderLabel.textColor = MMTextView.systemPlaceHolderColor
+                placeHolderLabel.mmTextLayout
+                    .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
+                    .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
+            }
+            UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+            
+        }
+    }
+
     private lazy var lineContainerView: UIView = {
         let v = UIView()
         v.isUserInteractionEnabled = false
@@ -87,6 +111,27 @@ open class MMTextView: UITextView {
             return lineView.style
         }
     }
+    
+    public var titleFont: UIFont? {
+        didSet {
+            self.updatePlaceHolderFont()
+            self.titleLabel.font = titleFont
+            self.invalidateIntrinsicContentSize()
+            self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
+        }
+    }
+    
+    public var errorFont: UIFont? {
+        didSet {
+            self.errorLabel.font = errorFont
+            self.invalidateIntrinsicContentSize()
+            self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
+        }
+    }
 
     public var lineType: LineType = .left {
         didSet {
@@ -129,6 +174,8 @@ open class MMTextView: UITextView {
             titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
         } get {
             return self.titleLabel.text
         }
@@ -142,6 +189,8 @@ open class MMTextView: UITextView {
             titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
         } get {
             return self.titleLabel.attributedText
         }
@@ -153,6 +202,8 @@ open class MMTextView: UITextView {
             titleLabel.mmTextLayout[.bottom]?.constant = -realTopMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
 
         }
     }
@@ -172,6 +223,8 @@ open class MMTextView: UITextView {
             errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
         }
     }
     
@@ -182,6 +235,8 @@ open class MMTextView: UITextView {
             errorLabel.mmTextLayout[.top]?.constant = realBottomMargin
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
+            self.layoutChanged?()
+            (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
         }
     }
     
@@ -240,7 +295,7 @@ open class MMTextView: UITextView {
     
     override open var font: UIFont? {
         didSet {
-            self.placeHolderLabel.font = font
+            self.updatePlaceHolderFont()
         }
     }
     
@@ -272,6 +327,11 @@ open class MMTextView: UITextView {
         didSet {
             self.valueChange()
         }
+    }
+    
+    override open func awakeFromNib() {
+        super.awakeFromNib()
+        self.superview?.layoutIfNeeded()
     }
     
     override open var attributedText: NSAttributedString? {
@@ -381,15 +441,15 @@ extension MMTextView {
         return errorLabel.frame.height > 0 ? errorMargin : 0
     }
     
+    private func updatePlaceHolderFont() {
+        placeHolderLabel.font = shiftPlaceholderTitle ? titleLabel.font : self.font
+    }
+    
     @objc func beginEdit() {
         lineView.beginEdit()
         self.valueChange()
         if self.titleFromPlaceHolder {
-            placeHolderLabel.font = titleLabel.font
-            placeHolderLabel.textColor = self.textColor
-            placeHolderLabel.mmTextLayout.setTop(anchor: self.topAnchor, type: .equal(constant: 0))
-                .setHeight(type: .equalTo(anchor: self.titleLabel.heightAnchor, multiplier: 1, constant: 0))
-            UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+            self.shiftPlaceholderTitle = true
         }
     }
     
@@ -397,13 +457,7 @@ extension MMTextView {
         lineView.endEdit()
         self.valueChange()
         if self.titleFromPlaceHolder {
-            placeHolderLabel.font = self.font
-            placeHolderLabel.textColor = MMTextView.systemPlaceHolderColor
-            
-            placeHolderLabel.mmTextLayout
-                .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
-                .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
-            UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
+            self.shiftPlaceholderTitle = false
         }
     }
     

@@ -278,6 +278,11 @@ open class MMTextField: UITextField {
         }
     }
     
+    override open func awakeFromNib() {
+        super.awakeFromNib()
+        self.layoutIfNeeded()
+    }
+    
     override open var attributedText: NSAttributedString? {
         didSet {
             self.valueChange()
@@ -313,6 +318,18 @@ open class MMTextField: UITextField {
     override open func borderRect(forBounds bounds: CGRect) -> CGRect {
         return super.borderRect(forBounds: bounds)
     }
+    
+    override open func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        var r = super.leftViewRect(forBounds: bounds)
+        r.origin.y = realTopHeight + (lineContainerView.frame.height-r.height)/2
+        return r
+    }
+    
+    override open func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        var r = super.rightViewRect(forBounds: bounds)
+        r.origin.y = realTopHeight + (lineContainerView.frame.height-r.height)/2
+        return r
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -339,18 +356,20 @@ open class MMTextField: UITextField {
         self.addTarget(self, action: #selector(MMTextField.beginEdit), for: .editingDidBegin)
         self.addTarget(self, action: #selector(MMTextField.endEdit), for: .editingDidEnd)
         self.addTarget(self, action: #selector(MMTextField.valueChange), for: .editingChanged)
-        
-        lineContainerView.mmTextLayout
-            .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
-            .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
-            .setHeight(type: .greaterThanOrEqual(constant: 0))
-        
+        titleLabel.setContentHuggingPriority(.init(750), for: .vertical)
         titleLabel.mmTextLayout
             .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
             .setLeft(anchor: self.leftAnchor, type: .equal(constant: 0))
             .setRight(anchor: self.rightAnchor, type: .equal(constant: 0))
             .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
         
+        lineContainerView.setContentHuggingPriority(.init(749), for: .vertical)
+        lineContainerView.mmTextLayout
+            .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
+            .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
+            .setHeight(type: .greaterThanOrEqual(constant: 0))
+        
+        errorLabel.setContentHuggingPriority(.init(750), for: .vertical)
         errorLabel.mmTextLayout
             .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
             .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))

@@ -280,7 +280,7 @@ open class MMTextField: UITextField {
     
     override open func awakeFromNib() {
         super.awakeFromNib()
-        self.layoutIfNeeded()
+        self.superview?.layoutIfNeeded()
     }
     
     override open var attributedText: NSAttributedString? {

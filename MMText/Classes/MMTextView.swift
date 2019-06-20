@@ -414,7 +414,14 @@ open class MMTextView: UITextView {
             self.updatePlaceHolderFont()
         }
     }
-    
+    private var _realIntrinsicContentSize: CGSize = .zero {
+        didSet {
+            if oldValue == _realIntrinsicContentSize {
+                return
+            }
+            self.delayLayoutChange()
+        }
+    }
     override open var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         let topBotMargin = realTopHeight+realBottomHeight
@@ -423,6 +430,7 @@ open class MMTextView: UITextView {
         let placeHeight = (self.placeHolderLabel.text ?? "").calHeightWith(width: width, font: font)
         var textHeight = (self.text ?? "").calHeightWith(width: width, font: font)
         let textH = max(textHeight,placeHeight) + 2*MMTextView.defaultMargin
+        
         if textHeight > self.contentSize.height {
             textHeight = self.contentSize.height
             self.isScrollEnabled = true
@@ -434,6 +442,7 @@ open class MMTextView: UITextView {
                                                left: 0,
                                                bottom: realBottomHeight+MMTextView.defaultMargin,
                                                right: 0)
+        self._realIntrinsicContentSize = size
         return size
     }
     @IBInspectable

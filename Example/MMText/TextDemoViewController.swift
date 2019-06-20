@@ -13,6 +13,7 @@ class TextDemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.txtView.inputViewStyle = .border
+        self.txtView.delegate = self
         // Do any additional setup after loading the view.
     }
     @IBAction func errorAction() {
@@ -22,5 +23,11 @@ class TextDemoViewController: UIViewController {
     
     @IBAction func clearAction() {
         txtView.errorTitle = nil
+    }
+}
+
+extension TextDemoViewController: MMTextViewdProtocol, UITextViewDelegate {
+    func textLayoutChanged(text: MMTextView) {
+        print("C")
     }
 }

@@ -467,15 +467,22 @@ open class MMTextView: UITextView {
 }
 
 extension MMTextView {
-    
+  
+    @objc private func delayProtocol() {
+        (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
+    }
     private func updateMaskFrame() {
         let height = lineContainerView.frame.height
         let y = realTopHeight+self.contentOffset.y
         let f = CGRect(x: 0, y: y, width: lineContainerView.frame.width, height: height)
-        if f == self.mask?.frame {
-            return
+
+        if f.size != self.mask?.frame.size {
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(delayProtocol), object: nil)
+            self.perform(#selector(delayProtocol), with: nil, afterDelay: 0.1)
         }
-        self.mask?.frame = f
+        if f != self.mask?.frame {
+            self.mask?.frame = f
+        }
     }
     private func updatePlaceHolderMargin() {
         switch inputViewStyle {

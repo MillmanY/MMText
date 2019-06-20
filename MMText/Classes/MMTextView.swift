@@ -42,6 +42,7 @@ open class MMTextView: UITextView {
             self.layoutIfNeeded()
             self.setNeedsLayout()
             self.updateMaskFrame()
+            self.delayLayoutChange()
         }
     }
     
@@ -50,6 +51,7 @@ open class MMTextView: UITextView {
             self.updateMaskFrame()
         }
     }
+    
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -140,11 +142,12 @@ open class MMTextView: UITextView {
         lineContainerView.layoutIfNeeded()
      
 
-        boundObserver  = lineContainerView.observe(\.bounds, options: [.initial,.new]) { (_, value) in
+        boundObserver  = lineContainerView.observe(\.bounds, options: [.initial,.new]) { [weak self] (_, value) in
             guard let _ = value.newValue else {
                 return
             }
-            self.updateMaskFrame()
+            self?.updateMaskFrame()
+            self?.delayLayoutChange()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.1) { [weak self] in
@@ -468,18 +471,19 @@ open class MMTextView: UITextView {
 
 extension MMTextView {
   
-    @objc private func delayProtocol() {
+    @objc private func _delayLayoutChange() {
         (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
+    }
+    
+    func delayLayoutChange() {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(_delayLayoutChange), object: nil)
+        self.perform(#selector(_delayLayoutChange), with: nil, afterDelay: 0.1)
     }
     private func updateMaskFrame() {
         let height = lineContainerView.frame.height
         let y = realTopHeight+self.contentOffset.y
         let f = CGRect(x: 0, y: y, width: lineContainerView.frame.width, height: height)
 
-        if f.size != self.mask?.frame.size {
-            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(delayProtocol), object: nil)
-            self.perform(#selector(delayProtocol), with: nil, afterDelay: 0.1)
-        }
         if f != self.mask?.frame {
             self.mask?.frame = f
         }
@@ -534,11 +538,11 @@ extension MMTextView {
     }
     
     @objc func valueChange() {
-//        let textNotEmpty = self.text?.isEmpty == false || self.attributedText?.string.isEmpty == false
-//        if titleFromPlaceHolder {
-//            self.placeHolderLabel.isHidden = textNotEmpty && !self.isFocused
-//        } else {
-//            self.placeHolderLabel.isHidden = textNotEmpty
-//        }
+        let textNotEmpty = self.text?.isEmpty == false || self.attributedText?.string.isEmpty == false
+        if titleFromPlaceHolder {
+            self.placeHolderLabel.isHidden = textNotEmpty && !self.isFocused
+        } else {
+            self.placeHolderLabel.isHidden = textNotEmpty
+        }
     }
 }

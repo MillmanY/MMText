@@ -139,7 +139,7 @@ class LayoutHelper: NSObject {
     @discardableResult
     func setWidth(type: DimensionType) -> Self {
         self.delete(type: .width)
-
+        
         let layout = self.dimension(selfAnchor: self.view.widthAnchor, type: type)
         constraint[.width] = layout
         layout.isActive = true

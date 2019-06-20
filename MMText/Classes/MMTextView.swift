@@ -21,13 +21,22 @@ open class MMTextView: UITextView {
     private var layoutChanged: (()->Void)?
     private static var defaultMargin: CGFloat = 8
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
-    var isFitContent: Bool {
-        set  {
-            self.isScrollEnabled = !newValue
-        } get {
-            return self.isScrollEnabled
+    var equalContent = true
+    private var coverView: UIView = {
+       let v = UIView()
+        v.clipsToBounds = false
+        v.isUserInteractionEnabled = false
+        return v
+    }()
+    
+    override open var contentSize: CGSize {
+        didSet {
+            self.invalidateIntrinsicContentSize()
+            self.layoutIfNeeded()
+            self.setNeedsLayout()
         }
     }
+
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -39,10 +48,21 @@ open class MMTextView: UITextView {
         self.setup()
     }
     
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if let superV = self.superview, superV != coverView.superview {
+            superV.addSubview(coverView)
+            coverView.mmTextLayout
+                .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+                .setLeading(anchor: self.leadingAnchor, type: .equal(constant: 0))
+                .setTrailing(anchor: self.trailingAnchor, type: .equal(constant: 0))
+                .setBottom(anchor: self.bottomAnchor, type: .equal(constant: 0))
+        }
+    }
+    
     open func setup() {
         self.textContainer.lineFragmentPadding = 0
         self.placeHolderLabel.textContainer.lineFragmentPadding = 0
-        
         NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
             if let o = value.object as? UITextView , o == self {
                 self?.beginEdit()
@@ -60,34 +80,40 @@ open class MMTextView: UITextView {
                 self?.valueChange()
             }
         }
+        
         self.clipsToBounds = false
         self.lineType = .left
         let t = self.textAlignment
         self.textAlignment = t
-        self.addSubview(titleLabel)
-        self.addSubview(placeHolderLabel)
-        self.addSubview(errorLabel)
+        
+        coverView.addSubview(lineContainerView)
+        coverView.addSubview(titleLabel)
+        coverView.addSubview(placeHolderLabel)
+        coverView.addSubview(errorLabel)
         self.errorColor = UIColor.red
         self.titleColor = UIColor.black
         self.lineContainerView.addSubview(self.lineView)
         self.editLineWidth = 2
         self.lineWidth = 1
         self.placeHolderLabel.font = font
-        
-        lineContainerView.mmTextLayout
-            .setCenterX(anchor: self.centerXAnchor, type: .equal(constant: 0))
-            .setWidth(type: .equalTo(anchor: self.widthAnchor, multiplier: 1, constant: 0))
-            .setHeight(type: .greaterThanOrEqual(constant: 0))
+        titleLabel.setContentHuggingPriority(.init(750), for: .vertical)
         titleLabel.mmTextLayout
-            .setTop(anchor: self.topAnchor, type: .equal(constant: 0))
+            .setTop(anchor: coverView.topAnchor, type: .equal(constant: 0))
             .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
             .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
             .setBottom(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
         
+        lineContainerView.setContentHuggingPriority(.init(749), for: .vertical)
+        lineContainerView.mmTextLayout
+            .setCenterX(anchor: coverView.centerXAnchor, type: .equal(constant: 0))
+            .setWidth(type: .equalTo(anchor: coverView.widthAnchor, multiplier: 1, constant: 0))
+        errorLabel.setContentHuggingPriority(.init(750), for: .vertical)
         errorLabel.mmTextLayout
             .setTop(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
             .setLeading(anchor: self.lineContainerView.leadingAnchor, type: .equal(constant: 0))
             .setTrailing(anchor: self.lineContainerView.trailingAnchor, type: .equal(constant: 0))
+            .setBottom(anchor: coverView.bottomAnchor, type: .equal(constant: 0))
+        
         placeHolderLabel.mmTextLayout
             .setTop(anchor: self.lineContainerView.topAnchor, type: .equal(constant: 0))
             .setCenterX(anchor: self.lineContainerView.centerXAnchor, type: .equal(constant: 0))
@@ -122,7 +148,6 @@ open class MMTextView: UITextView {
                     .setHeight(type: .equalTo(anchor: self.lineContainerView.heightAnchor, multiplier: 1, constant: 0))
             }
             UIView.animate(withDuration: 0.1) { self.layoutIfNeeded() }
-            
         }
     }
 
@@ -131,7 +156,6 @@ open class MMTextView: UITextView {
         v.isUserInteractionEnabled = false
         v.backgroundColor = UIColor.clear
         v.clipsToBounds = false
-        self.addSubview(v)
         return v
     }()
     
@@ -324,7 +348,6 @@ open class MMTextView: UITextView {
         didSet {
             self.lineView.lineWidth = CGFloat(lineWidth)
             self.updatePlaceHolderMargin()
-
         }
     }
     
@@ -367,12 +390,16 @@ open class MMTextView: UITextView {
         let topBotMargin = realTopHeight+realBottomHeight
         let width = self.textContainer.size.width
         let font = self.font
-        let textHeight = (self.text ?? "").calHeightWith(width: width, font: font)
         let placeHeight = (self.placeHolderLabel.text ?? "").calHeightWith(width: width, font: font)
-
+        var textHeight = (self.text ?? "").calHeightWith(width: width, font: font)
         let textH = max(textHeight,placeHeight) + 2*MMTextView.defaultMargin
-        size.height = topBotMargin + textH 
-        self.lineContainerView.mmTextLayout[.height]?.constant  = textH
+        if textHeight > self.contentSize.height {
+            textHeight = self.contentSize.height
+            self.isScrollEnabled = true
+        } else {
+            self.isScrollEnabled = false
+        }
+        size.height = topBotMargin + textH + 100
         self.textContainerInset = UIEdgeInsets(top: realTopHeight+MMTextView.defaultMargin,
                                                left: 0,
                                                bottom: realBottomHeight+MMTextView.defaultMargin,
@@ -463,11 +490,11 @@ extension MMTextView {
     }
     
     @objc func valueChange() {
-        let textNotEmpty = self.text?.isEmpty == false || self.attributedText?.string.isEmpty == false
-        if titleFromPlaceHolder {
-            self.placeHolderLabel.isHidden = textNotEmpty && !self.isFocused
-        } else {
-            self.placeHolderLabel.isHidden = textNotEmpty
-        }
+//        let textNotEmpty = self.text?.isEmpty == false || self.attributedText?.string.isEmpty == false
+//        if titleFromPlaceHolder {
+//            self.placeHolderLabel.isHidden = textNotEmpty && !self.isFocused
+//        } else {
+//            self.placeHolderLabel.isHidden = textNotEmpty
+//        }
     }
 }

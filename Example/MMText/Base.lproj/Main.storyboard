@@ -115,7 +115,7 @@
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jdt-oI-Cq2" customClass="MMTextView" customModule="MMText">
                                 <rect key="frame" x="16" y="84" width="343" height="124.5"/>
-                                <color key="backgroundColor" red="0.45098039220000002" green="0.82352941180000006" blue="0.3921568627" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <userDefinedRuntimeAttributes>

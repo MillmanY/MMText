@@ -19,6 +19,7 @@ extension MMTextView {
 @IBDesignable
 open class MMTextView: UITextView {
     private var layoutChanged: (()->Void)?
+    private var boundObserver: NSKeyValueObservation?
     private static var defaultMargin: CGFloat = 8
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var equalContent = true
@@ -29,14 +30,26 @@ open class MMTextView: UITextView {
         return v
     }()
     
+    private var showMask: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.red
+        return view
+    }()
+    
     override open var contentSize: CGSize {
         didSet {
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.setNeedsLayout()
+            self.updateMaskFrame()
         }
     }
-
+    
+    override open var contentOffset: CGPoint {
+        didSet {
+            self.updateMaskFrame()
+        }
+    }
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -60,7 +73,10 @@ open class MMTextView: UITextView {
         }
     }
     
+    
+    
     open func setup() {
+        
         self.textContainer.lineFragmentPadding = 0
         self.placeHolderLabel.textContainer.lineFragmentPadding = 0
         NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
@@ -81,6 +97,8 @@ open class MMTextView: UITextView {
             }
         }
         
+
+        self.mask = showMask
         self.clipsToBounds = false
         self.lineType = .left
         let t = self.textAlignment
@@ -119,6 +137,15 @@ open class MMTextView: UITextView {
             .setCenterX(anchor: self.lineContainerView.centerXAnchor, type: .equal(constant: 0))
             .setWidth(type: .equalTo(anchor: self.lineContainerView.widthAnchor, multiplier: 1, constant: 0))
             .setBottom(anchor: self.lineContainerView.bottomAnchor, type: .equal(constant: 0))
+        lineContainerView.layoutIfNeeded()
+     
+
+        boundObserver  = lineContainerView.observe(\.bounds, options: [.initial,.new]) { (_, value) in
+            guard let _ = value.newValue else {
+                return
+            }
+            self.updateMaskFrame()
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.1) { [weak self] in
             self?.layoutIfNeeded()
@@ -399,7 +426,7 @@ open class MMTextView: UITextView {
         } else {
             self.isScrollEnabled = false
         }
-        size.height = topBotMargin + textH + 100
+        size.height = topBotMargin + textH
         self.textContainerInset = UIEdgeInsets(top: realTopHeight+MMTextView.defaultMargin,
                                                left: 0,
                                                bottom: realBottomHeight+MMTextView.defaultMargin,
@@ -440,6 +467,16 @@ open class MMTextView: UITextView {
 }
 
 extension MMTextView {
+    
+    private func updateMaskFrame() {
+        let height = lineContainerView.frame.height
+        let y = realTopHeight+self.contentOffset.y
+        let f = CGRect(x: 0, y: y, width: lineContainerView.frame.width, height: height)
+        if f == self.mask?.frame {
+            return
+        }
+        self.mask?.frame = f
+    }
     private func updatePlaceHolderMargin() {
         switch inputViewStyle {
         case .border:

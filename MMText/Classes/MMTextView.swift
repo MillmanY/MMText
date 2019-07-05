@@ -80,7 +80,7 @@ open class MMTextView: UITextView {
     open func setup() {
         
         self.textContainer.lineFragmentPadding = 0
-        self.placeHolderLabel.textContainer.lineFragmentPadding = 0
+//        self.placeHolderLabel.textContainer.lineFragmentPadding = 0
         NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
             if let o = value.object as? UITextView , o == self {
                 self?.beginEdit()
@@ -189,10 +189,11 @@ open class MMTextView: UITextView {
         return v
     }()
     
-    private var placeHolderLabel: UITextView = {
-        let label = UITextView()
+    private var placeHolderLabel: UILabel = {
+        let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.isScrollEnabled = false
+        label.numberOfLines = 0
+//        label.isScrollEnabled = false
         label.clipsToBounds = false
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = MMTextView.systemPlaceHolderColor

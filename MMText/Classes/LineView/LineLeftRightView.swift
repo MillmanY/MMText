@@ -70,7 +70,7 @@ class LineBaseView: UIView, InputViewProtocol {
         }
         
         animation.timingFunction = CAMediaTimingFunction.init(name: CAMediaTimingFunctionName.easeIn)
-        animation.duration = duration
+        animation.duration = duration == 0 ? 0.001 : duration
         animation.isRemovedOnCompletion = false
         animation.fillMode = CAMediaTimingFillMode.both
         return animation

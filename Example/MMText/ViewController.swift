@@ -41,6 +41,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func inputBorderAction() {
+        txtAccount1.duration = 0
         txtAccount1.inputViewStyle = .border
         txtPwd1.inputViewStyle = .border
         txtAccount2.inputViewStyle = .border

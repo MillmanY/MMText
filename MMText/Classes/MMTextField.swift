@@ -20,6 +20,11 @@ extension MMTextField {
 
 @IBDesignable
 open class MMTextField: UITextField {
+    public var duration: TimeInterval = 0.3 {
+        didSet {
+            lineView.duration = duration
+        }
+    }
     private var layoutChanged: (()->Void)?
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var tes: UIView = UIView()
@@ -115,7 +120,7 @@ open class MMTextField: UITextField {
             case .center:
                 lineView = LineCenterView()
             }
-            
+            lineView.duration = duration
             lineView.lineWidth = CGFloat(lineWidth)
             lineView.lineColor = lineColor
             lineView.editWidth = CGFloat(editLineWidth)

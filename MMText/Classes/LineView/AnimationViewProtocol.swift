@@ -10,6 +10,7 @@ import Foundation
 public enum InputViewStyle {
     case line
     case border
+    case boderWith(radius: CGFloat)
 }
 
 protocol InputViewProtocol: class {

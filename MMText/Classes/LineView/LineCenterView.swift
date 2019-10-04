@@ -140,6 +140,44 @@ class LineCenterView: UIView, InputViewProtocol {
             right.move(to: CGPoint(x: 0, y: self.frame.height))
             right.addLine(to: CGPoint(x: half, y: self.frame.height))
             editRightLayer.path = right.cgPath
+        case .boderWith(let radius):
+            let bezier = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius)
+            bezier.move(to: CGPoint.init(x: bound.maxX, y: bound.height))
+            lineLayer.path = bezier.cgPath
+            let left = UIBezierPath()
+            left.move(to: CGPoint(x: half, y: self.frame.height))
+            left.addLine(to: CGPoint(x: radius, y: self.frame.height))
+            let leftB = UIBezierPath.init(arcCenter: CGPoint(x: radius, y: self.frame.height-radius),
+                                          radius: radius,
+                                          startAngle: CGFloat.pi/2, endAngle: CGFloat.pi, clockwise: true)
+            left.append(leftB)
+            
+            left.addLine(to: CGPoint.init(x: 0, y: radius))
+            let leftT = UIBezierPath.init(arcCenter: CGPoint(x: radius, y: radius),
+                                          radius: radius,
+                                          startAngle: CGFloat.pi, endAngle: CGFloat.pi*3/2, clockwise: true)
+
+            left.append(leftT)
+            left.addLine(to: CGPoint.init(x: half, y: 0))
+            editLeftLayer.path = left.cgPath
+            
+            
+            let right = UIBezierPath()
+            right.move(to: CGPoint(x: 0, y: self.frame.height))
+            right.addLine(to: CGPoint(x: half-radius, y: self.frame.height))
+            let rightB = UIBezierPath.init(arcCenter: CGPoint(x: half-radius, y: self.frame.height-radius),
+                                           radius: radius,
+                                           startAngle: CGFloat.pi/2, endAngle: 0, clockwise: false)
+            right.append(rightB)
+            
+            right.addLine(to: CGPoint.init(x: half, y: radius))
+            let rightT = UIBezierPath.init(arcCenter: CGPoint(x: half-radius, y: radius),
+                                          radius: radius,
+                                          startAngle: 0, endAngle: -CGFloat.pi/2, clockwise: false)
+            right.append(rightT)
+            right.addLine(to: .zero)
+            editRightLayer.path = right.cgPath
+            
         case .border:
             let bezier = UIBezierPath(roundedRect: self.bounds, cornerRadius: 1)
             bezier.move(to: CGPoint.init(x: bound.maxX, y: bound.height))

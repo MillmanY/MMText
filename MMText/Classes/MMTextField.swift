@@ -419,7 +419,7 @@ extension MMTextField {
     
     private func updatePlaceHolderMargin() {
         switch inputViewStyle {
-        case .border:
+        case .border, .boderWith(_):
             let parameter: CGFloat = self.textAlignment == .right ? -1 : 1
             
             let maxLine = max(lineWidth, editLineWidth)
@@ -437,7 +437,7 @@ extension MMTextField {
         var r = rect
         
         switch self.inputViewStyle {
-        case .border:
+        case .border, .boderWith(_):
             let maxLine = max(lineWidth, editLineWidth)
             let parameter: CGFloat = self.textAlignment == .right ? -1 : 1
             r.origin.x += (CGFloat(maxLine/2) + 5)*parameter

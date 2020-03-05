@@ -361,7 +361,7 @@ open class MMTextField: UITextField {
         return r
     }
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         self.setup()
     }

@@ -37,23 +37,11 @@ open class MMTextView: UITextView {
         return view
     }()
     
-    override open var contentSize: CGSize {
-        didSet {
-            
-            self.invalidateIntrinsicContentSize()
-            self.layoutIfNeeded()
-            self.setNeedsLayout()
-            self.updateMaskFrame()
-            self.delayLayoutChange()
-        }
-    }
-        
     override open var contentOffset: CGPoint {
         didSet {
             self.updateMaskFrame()
         }
     }
-    
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -76,8 +64,6 @@ open class MMTextView: UITextView {
                 .setBottom(anchor: self.bottomAnchor, type: .equal(constant: 0))
         }
     }
-    
-    
     
     open func setup() {
         self.textContainer.lineFragmentPadding = 0
@@ -150,7 +136,6 @@ open class MMTextView: UITextView {
                 return
             }
             self?.updateMaskFrame()
-            self?.delayLayoutChange()
         }
         self.textContainer.heightTracksTextView = true
     
@@ -419,14 +404,7 @@ open class MMTextView: UITextView {
             self.updatePlaceHolderFont()
         }
     }
-    private var _realIntrinsicContentSize: CGSize = .zero {
-        didSet {
-            if oldValue == _realIntrinsicContentSize {
-                return
-            }
-            self.delayLayoutChange()
-        }
-    }
+ 
     override open var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         let topBotMargin = realTopHeight+realBottomHeight
@@ -446,7 +424,6 @@ open class MMTextView: UITextView {
                                                left: 0,
                                                bottom: realBottomHeight+MMTextView.defaultMargin,
                                                right: 0)
-        self._realIntrinsicContentSize = size
         return size
     }
     @IBInspectable
@@ -490,7 +467,7 @@ open class MMTextView: UITextView {
             self.layoutIfNeeded()
             self.setNeedsLayout()
             self.updateMaskFrame()
-            self.delayLayoutChange()
+            self._delayLayoutChange()
         }
     }
 }
@@ -501,10 +478,10 @@ extension MMTextView {
         (self.delegate as? MMTextViewdProtocol)?.textLayoutChanged(text: self)
     }
     
-    func delayLayoutChange() {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(_delayLayoutChange), object: nil)
-        self.perform(#selector(_delayLayoutChange), with: nil, afterDelay: 0.1)
-    }
+//    func delayLayoutChange() {
+//        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(_delayLayoutChange), object: nil)
+//        self.perform(#selector(_delayLayoutChange), with: nil, afterDelay: 0.1)
+//    }
     private func updateMaskFrame() {
         let height = lineContainerView.frame.height
         let y = realTopHeight+self.contentOffset.y

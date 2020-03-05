@@ -24,6 +24,8 @@ class TextDemoViewController: UIViewController {
     @IBAction func clearAction() {
         txtView.errorTitle = nil
     }
+    
+    
 }
 
 extension TextDemoViewController: MMTextViewdProtocol, UITextViewDelegate {

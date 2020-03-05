@@ -20,6 +20,7 @@ extension MMTextView {
 open class MMTextView: UITextView {
     private var layoutChanged: (()->Void)?
     private var boundObserver: NSKeyValueObservation?
+
     private static var defaultMargin: CGFloat = 8
     private static var systemPlaceHolderColor = UIColor(red: 0, green: 0, blue: 0.0980392, alpha: 0.22)
     var equalContent = true
@@ -38,6 +39,7 @@ open class MMTextView: UITextView {
     
     override open var contentSize: CGSize {
         didSet {
+            
             self.invalidateIntrinsicContentSize()
             self.layoutIfNeeded()
             self.setNeedsLayout()
@@ -45,7 +47,7 @@ open class MMTextView: UITextView {
             self.delayLayoutChange()
         }
     }
-    
+        
     override open var contentOffset: CGPoint {
         didSet {
             self.updateMaskFrame()
@@ -78,9 +80,7 @@ open class MMTextView: UITextView {
     
     
     open func setup() {
-        
         self.textContainer.lineFragmentPadding = 0
-//        self.placeHolderLabel.textContainer.lineFragmentPadding = 0
         NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
             if let o = value.object as? UITextView , o == self {
                 self?.beginEdit()
@@ -94,8 +94,11 @@ open class MMTextView: UITextView {
         }
         
         NotificationCenter.default.addObserver(forName: UITextView.textDidChangeNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
+            guard let self = self else {return}
             if let o = value.object as? UITextView , o == self {
-                self?.valueChange()
+                self.valueChange()
+                let width = o.textContainer.size.width
+                self.textHeight = (o.text ?? "").calHeightWith(width: width, font: self.font)
             }
         }
         
@@ -149,7 +152,8 @@ open class MMTextView: UITextView {
             self?.updateMaskFrame()
             self?.delayLayoutChange()
         }
-        
+        self.textContainer.heightTracksTextView = true
+    
         DispatchQueue.main.asyncAfter(deadline: .now()+0.1) { [weak self] in
             self?.layoutIfNeeded()
             self?.invalidateIntrinsicContentSize()
@@ -429,7 +433,6 @@ open class MMTextView: UITextView {
         let width = self.textContainer.size.width
         let font = self.font
         let placeHeight = (self.placeHolderLabel.text ?? "").calHeightWith(width: width, font: font)
-        var textHeight = (self.text ?? "").calHeightWith(width: width, font: font)
         let textH = max(textHeight,placeHeight) + 2*MMTextView.defaultMargin
         
         if textHeight > self.contentSize.height {
@@ -475,6 +478,19 @@ open class MMTextView: UITextView {
             self.titleLabel.textAlignment = textAlignment
             self.errorLabel.textAlignment = textAlignment
             self.placeHolderLabel.textAlignment = textAlignment
+        }
+    }
+    
+    var textHeight: CGFloat = 0.0 {
+        didSet {
+            if oldValue == textHeight {
+                return
+            }
+            self.invalidateIntrinsicContentSize()
+            self.layoutIfNeeded()
+            self.setNeedsLayout()
+            self.updateMaskFrame()
+            self.delayLayoutChange()
         }
     }
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1B3B881AD67FDEA7FB4CC374 /* Pods_MMText_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1288B5C73C345BD1C6F30CE3 /* Pods_MMText_Tests.framework */; };
 		270FC82522A506FB00D7A058 /* TextDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270FC82422A506FB00D7A058 /* TextDemoViewController.swift */; };
+		2720FED02410C8A0002DB389 /* TextVIewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2720FECF2410C8A0002DB389 /* TextVIewTableViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 		17D7A629EE5BB507AAD66863 /* Pods_MMText_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MMText_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C7BA9DA4ABE8F14149084B /* Pods-MMText_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMText_Tests.debug.xcconfig"; path = "Target Support Files/Pods-MMText_Tests/Pods-MMText_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		270FC82422A506FB00D7A058 /* TextDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDemoViewController.swift; sourceTree = "<group>"; };
+		2720FECF2410C8A0002DB389 /* TextVIewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextVIewTableViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* MMText_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMText_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				2720FECF2410C8A0002DB389 /* TextVIewTableViewController.swift */,
 			);
 			name = "Example for MMText";
 			path = MMText;
@@ -340,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				2720FED02410C8A0002DB389 /* TextVIewTableViewController.swift in Sources */,
 				270FC82522A506FB00D7A058 /* TextDemoViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);

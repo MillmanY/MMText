@@ -85,6 +85,31 @@
                                             <segue destination="ic4-wR-QbT" kind="show" id="oYd-ML-wYG"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ZzZ-M9-6Po">
+                                        <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZzZ-M9-6Po" id="sQc-ld-ic5">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MMTextView TableController demo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oh9-r5-27b">
+                                                    <rect key="frame" x="15" y="0.0" width="360" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Oh9-r5-27b" firstAttribute="leading" secondItem="sQc-ld-ic5" secondAttribute="leading" constant="15" id="Bkq-ow-IFD"/>
+                                                <constraint firstAttribute="trailing" secondItem="Oh9-r5-27b" secondAttribute="trailing" id="L76-2C-etS"/>
+                                                <constraint firstItem="Oh9-r5-27b" firstAttribute="top" secondItem="sQc-ld-ic5" secondAttribute="top" id="bd6-Zf-4wx"/>
+                                                <constraint firstAttribute="bottom" secondItem="Oh9-r5-27b" secondAttribute="bottom" id="sxN-O8-0Kr"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="RwE-GH-wnU" kind="show" id="76M-4Z-Fnm"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -112,7 +137,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jdt-oI-Cq2" customClass="MMTextView" customModule="MMText">
-                                <rect key="frame" x="16" y="64" width="343" height="74.5"/>
+                                <rect key="frame" x="16" y="64" width="343" height="33"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -169,7 +194,61 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbT-Ne-Q7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="374" y="230"/>
+            <point key="canvasLocation" x="529" y="200"/>
+        </scene>
+        <!--TextV Iew Table View Controller-->
+        <scene sceneID="9fB-C9-0iB">
+            <objects>
+                <tableViewController id="RwE-GH-wnU" customClass="TextVIewTableViewController" customModule="MMText_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="IkJ-Fs-cAk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <sections>
+                            <tableViewSection id="rDP-qu-BIH">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="65" id="ICE-Qg-ioX">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="65"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ICE-Qg-ioX" id="t5d-ZO-Dcb">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yh0-9L-R7G" customClass="MMTextView" customModule="MMText">
+                                                    <rect key="frame" x="10" y="0.0" width="355" height="65"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Test"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Yh0-9L-R7G" secondAttribute="bottom" id="1zy-5H-Miw"/>
+                                                <constraint firstAttribute="trailing" secondItem="Yh0-9L-R7G" secondAttribute="trailing" constant="10" id="Lau-SH-HMe"/>
+                                                <constraint firstItem="Yh0-9L-R7G" firstAttribute="top" secondItem="t5d-ZO-Dcb" secondAttribute="top" id="veh-jz-C0B"/>
+                                                <constraint firstItem="Yh0-9L-R7G" firstAttribute="leading" secondItem="t5d-ZO-Dcb" secondAttribute="leading" constant="10" id="xkN-Qf-EYu"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="RwE-GH-wnU" id="E1s-XJ-JwY"/>
+                            <outlet property="delegate" destination="RwE-GH-wnU" id="esc-my-fXx"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="rsS-ZR-raH"/>
+                    <connections>
+                        <outlet property="textView" destination="Yh0-9L-R7G" id="ezC-6M-ubc"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2rL-AV-bIc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="528.79999999999995" y="930.58470764617698"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Ion-TA-uXt">

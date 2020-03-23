@@ -62,7 +62,7 @@ open class MMTextField: UITextField {
         return v
     }()
         
-    private var placeHolderLabel: UILabel = {
+    private(set) public var placeHolderLabel: UILabel = {
         let label = UILabel()
         label.textColor = MMTextField.systemPlaceHolderColor
         label.isUserInteractionEnabled = false

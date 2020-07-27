@@ -65,6 +65,10 @@ open class MMTextView: UITextView {
         }
     }
     
+    private func calculateHeight(text: String, width: CGFloat) {
+        self.textHeight = text.calHeightWith(width: width, font: self.font)
+    }
+    
     open func setup() {
         self.textContainer.lineFragmentPadding = 0
         NotificationCenter.default.addObserver(forName: UITextView.textDidBeginEditingNotification, object: nil, queue: OperationQueue.main) { [weak self] (value) in
@@ -84,7 +88,7 @@ open class MMTextView: UITextView {
             if let o = value.object as? UITextView , o == self {
                 self.valueChange()
                 let width = o.textContainer.size.width
-                self.textHeight = (o.text ?? "").calHeightWith(width: width, font: self.font)
+                self.calculateHeight(text: (o.text ?? ""), width: width)
             }
         }
         
@@ -472,11 +476,7 @@ open class MMTextView: UITextView {
     }
     
     public func reload() {
-        self.invalidateIntrinsicContentSize()
-        self.layoutIfNeeded()
-        self.setNeedsLayout()
-        self.updateMaskFrame()
-        self._delayLayoutChange()
+        self.calculateHeight(text: self.text ?? "", width: self.textContainer.size.width)
     }
 }
 

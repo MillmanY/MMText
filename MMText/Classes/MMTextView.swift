@@ -470,6 +470,14 @@ open class MMTextView: UITextView {
             self._delayLayoutChange()
         }
     }
+    
+    public func reload() {
+        self.invalidateIntrinsicContentSize()
+        self.layoutIfNeeded()
+        self.setNeedsLayout()
+        self.updateMaskFrame()
+        self._delayLayoutChange()
+    }
 }
 
 extension MMTextView {
